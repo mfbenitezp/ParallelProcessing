@@ -717,36 +717,50 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb13" data-code-line-numbers="|1-5|7-12|14-18|20-24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">library</span>(parallel)</span>
-<span id="cb13-2"><a href=""></a></span>
-<span id="cb13-3"><a href=""></a><span class="co"># Detect number of available cores</span></span>
-<span id="cb13-4"><a href=""></a>num_cores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
-<span id="cb13-5"><a href=""></a></span>
-<span id="cb13-6"><a href=""></a>square_function <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb13-7"><a href=""></a>  <span class="fu">Sys.sleep</span>(<span class="fl">0.5</span>) <span class="co"># simulate work</span></span>
-<span id="cb13-8"><a href=""></a>  x<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb13-9"><a href=""></a>}</span>
-<span id="cb13-10"><a href=""></a></span>
-<span id="cb13-11"><a href=""></a>numbers <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb13-12"><a href=""></a></span>
-<span id="cb13-13"><a href=""></a><span class="co"># --- Sequential execution ---</span></span>
-<span id="cb13-14"><a href=""></a>start_seq <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb13-15"><a href=""></a>seq_result <span class="ot">&lt;-</span> <span class="fu">lapply</span>(numbers, square_function)</span>
-<span id="cb13-16"><a href=""></a>end_seq <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb13-17"><a href=""></a>seq_time <span class="ot">&lt;-</span> end_seq <span class="sc">-</span> start_seq</span>
-<span id="cb13-18"><a href=""></a></span>
-<span id="cb13-19"><a href=""></a><span class="co"># --- Parallel execution ---</span></span>
-<span id="cb13-20"><a href=""></a>start_par <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb13-21"><a href=""></a>par_result <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(numbers, square_function, <span class="at">mc.cores =</span> num_cores)</span>
-<span id="cb13-22"><a href=""></a>end_par <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb13-23"><a href=""></a>par_time <span class="ot">&lt;-</span> end_par <span class="sc">-</span> start_par</span>
-<span id="cb13-24"><a href=""></a></span>
-<span id="cb13-25"><a href=""></a><span class="co"># --- Results ---</span></span>
-<span id="cb13-26"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sequential result:"</span>, <span class="fu">unlist</span>(seq_result), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb13-27"><a href=""></a><span class="fu">cat</span>(<span class="st">"Parallel result:  "</span>, <span class="fu">unlist</span>(par_result), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb13-28"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sequential time:"</span>, seq_time, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb13-29"><a href=""></a><span class="fu">cat</span>(<span class="st">"Parallel time:  "</span>, par_time, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb13-30"><a href=""></a><span class="fu">cat</span>(<span class="st">"Speedup factor: "</span>, <span class="fu">round</span>(<span class="fu">as.numeric</span>(seq_time <span class="sc">/</span> par_time), <span class="dv">2</span>), <span class="st">"x faster</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13" data-code-line-numbers="|1-5|7-12|14-18|20-24|26-31|33-44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">library</span>(parallel)</span>
+<span id="cb13-2"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-3"><a href=""></a></span>
+<span id="cb13-4"><a href=""></a><span class="co"># Detect cores</span></span>
+<span id="cb13-5"><a href=""></a>num_cores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
+<span id="cb13-6"><a href=""></a></span>
+<span id="cb13-7"><a href=""></a>square_function <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb13-8"><a href=""></a>  <span class="fu">Sys.sleep</span>(<span class="fl">0.5</span>) <span class="co"># simulate work</span></span>
+<span id="cb13-9"><a href=""></a>  x<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb13-10"><a href=""></a>}</span>
+<span id="cb13-11"><a href=""></a></span>
+<span id="cb13-12"><a href=""></a>numbers <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb13-13"><a href=""></a></span>
+<span id="cb13-14"><a href=""></a><span class="co"># --- Sequential execution ---</span></span>
+<span id="cb13-15"><a href=""></a>start_seq <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-16"><a href=""></a>seq_result <span class="ot">&lt;-</span> <span class="fu">lapply</span>(numbers, square_function)</span>
+<span id="cb13-17"><a href=""></a>end_seq <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-18"><a href=""></a>seq_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(end_seq, start_seq, <span class="at">units =</span> <span class="st">"secs"</span>))  <span class="co"># convert to numeric seconds</span></span>
+<span id="cb13-19"><a href=""></a></span>
+<span id="cb13-20"><a href=""></a><span class="co"># --- Parallel execution ---</span></span>
+<span id="cb13-21"><a href=""></a>start_par <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-22"><a href=""></a>par_result <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(numbers, square_function, <span class="at">mc.cores =</span> num_cores)</span>
+<span id="cb13-23"><a href=""></a>end_par <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-24"><a href=""></a>par_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(end_par, start_par, <span class="at">units =</span> <span class="st">"secs"</span>))  <span class="co"># convert to numeric seconds</span></span>
+<span id="cb13-25"><a href=""></a></span>
+<span id="cb13-26"><a href=""></a><span class="co"># --- Print Results ---</span></span>
+<span id="cb13-27"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sequential result:"</span>, <span class="fu">unlist</span>(seq_result), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-28"><a href=""></a><span class="fu">cat</span>(<span class="st">"Parallel result:  "</span>, <span class="fu">unlist</span>(par_result), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-29"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sequential time:"</span>, seq_time, <span class="st">"seconds</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-30"><a href=""></a><span class="fu">cat</span>(<span class="st">"Parallel time:  "</span>, par_time, <span class="st">"seconds</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-31"><a href=""></a><span class="fu">cat</span>(<span class="st">"Speedup factor: "</span>, <span class="fu">round</span>(seq_time <span class="sc">/</span> par_time, <span class="dv">2</span>), <span class="st">"x faster</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-32"><a href=""></a></span>
+<span id="cb13-33"><a href=""></a><span class="co"># --- Plot ---</span></span>
+<span id="cb13-34"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-35"><a href=""></a>  <span class="at">Method =</span> <span class="fu">c</span>(<span class="st">"Sequential"</span>, <span class="st">"Parallel"</span>),</span>
+<span id="cb13-36"><a href=""></a>  <span class="at">Time =</span> <span class="fu">c</span>(seq_time, par_time)</span>
+<span id="cb13-37"><a href=""></a>)</span>
+<span id="cb13-38"><a href=""></a></span>
+<span id="cb13-39"><a href=""></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Method, <span class="at">y =</span> Time, <span class="at">fill =</span> Method)) <span class="sc">+</span></span>
+<span id="cb13-40"><a href=""></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-41"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sequential vs Parallel Execution Time"</span>,</span>
+<span id="cb13-42"><a href=""></a>       <span class="at">y =</span> <span class="st">"Execution Time (seconds)"</span>) <span class="sc">+</span></span>
+<span id="cb13-43"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb13-44"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div><div class="column" style="width:40%;">
@@ -767,44 +781,87 @@ Fernando Benitez
 </ul>
 </div></div>
 </section>
+<section class="slide level2">
+
+
+<img data-src="images/clipboard-2985706373.png" class="r-stretch"></section>
+<section class="slide level2">
+
+
+<img data-src="images/clipboard-636150272.png" class="r-stretch"></section>
 <section id="benchmarking-in-python" class="slide level2 smaller">
 <h2>Benchmarking in Python</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a><span class="im">import</span> multiprocessing <span class="im">as</span> mp</span>
+<div class="sourceCode cell-code" id="cb14" data-code-line-numbers="|1-3|5-8|9-16|17-25|27-30|32-35|37-57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a><span class="im">import</span> multiprocessing <span class="im">as</span> mp</span>
 <span id="cb14-2"><a href=""></a><span class="im">import</span> time</span>
-<span id="cb14-3"><a href=""></a></span>
-<span id="cb14-4"><a href=""></a><span class="kw">def</span> square_function(x):</span>
-<span id="cb14-5"><a href=""></a>    time.sleep(<span class="fl">0.5</span>)  <span class="co"># simulate work</span></span>
-<span id="cb14-6"><a href=""></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb14-7"><a href=""></a></span>
-<span id="cb14-8"><a href=""></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb14-9"><a href=""></a>    numbers <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>))</span>
-<span id="cb14-10"><a href=""></a>    num_cores <span class="op">=</span> mp.cpu_count()</span>
-<span id="cb14-11"><a href=""></a></span>
-<span id="cb14-12"><a href=""></a>    <span class="co"># --- Sequential execution ---</span></span>
-<span id="cb14-13"><a href=""></a>    start_seq <span class="op">=</span> time.time()</span>
-<span id="cb14-14"><a href=""></a>    seq_result <span class="op">=</span> [square_function(x) <span class="cf">for</span> x <span class="kw">in</span> numbers]</span>
-<span id="cb14-15"><a href=""></a>    end_seq <span class="op">=</span> time.time()</span>
-<span id="cb14-16"><a href=""></a>    seq_time <span class="op">=</span> end_seq <span class="op">-</span> start_seq</span>
-<span id="cb14-17"><a href=""></a></span>
-<span id="cb14-18"><a href=""></a>    <span class="co"># --- Parallel execution ---</span></span>
-<span id="cb14-19"><a href=""></a>    start_par <span class="op">=</span> time.time()</span>
-<span id="cb14-20"><a href=""></a>    <span class="cf">with</span> mp.Pool(processes<span class="op">=</span>num_cores) <span class="im">as</span> pool:</span>
-<span id="cb14-21"><a href=""></a>        par_result <span class="op">=</span> pool.<span class="bu">map</span>(square_function, numbers)</span>
-<span id="cb14-22"><a href=""></a>    end_par <span class="op">=</span> time.time()</span>
-<span id="cb14-23"><a href=""></a>    par_time <span class="op">=</span> end_par <span class="op">-</span> start_par</span>
-<span id="cb14-24"><a href=""></a></span>
-<span id="cb14-25"><a href=""></a>    <span class="co"># --- Results ---</span></span>
-<span id="cb14-26"><a href=""></a>    <span class="bu">print</span>(<span class="ss">f"Sequential result: </span><span class="sc">{</span>seq_result<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-27"><a href=""></a>    <span class="bu">print</span>(<span class="ss">f"Parallel result:   </span><span class="sc">{</span>par_result<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-28"><a href=""></a>    <span class="bu">print</span>(<span class="ss">f"Sequential time: </span><span class="sc">{</span>seq_time<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
-<span id="cb14-29"><a href=""></a>    <span class="bu">print</span>(<span class="ss">f"Parallel time:   </span><span class="sc">{</span>par_time<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
-<span id="cb14-30"><a href=""></a>    <span class="bu">print</span>(<span class="ss">f"Speedup factor:  </span><span class="sc">{</span>seq_time <span class="op">/</span> par_time<span class="sc">:.2f}</span><span class="ss">x faster"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-4"><a href=""></a></span>
+<span id="cb14-5"><a href=""></a><span class="kw">def</span> square_function(x):</span>
+<span id="cb14-6"><a href=""></a>    time.sleep(<span class="fl">0.5</span>)</span>
+<span id="cb14-7"><a href=""></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb14-8"><a href=""></a></span>
+<span id="cb14-9"><a href=""></a>  <span class="kw">def</span> benchmark_with_cores(numbers, cores):</span>
+<span id="cb14-10"><a href=""></a>    <span class="co">"""Benchmark using a specific number of cores."""</span></span>
+<span id="cb14-11"><a href=""></a>    start <span class="op">=</span> time.time()</span>
+<span id="cb14-12"><a href=""></a>    <span class="cf">with</span> mp.Pool(processes<span class="op">=</span>cores) <span class="im">as</span> pool:</span>
+<span id="cb14-13"><a href=""></a>        _ <span class="op">=</span> pool.<span class="bu">map</span>(square_function, numbers)</span>
+<span id="cb14-14"><a href=""></a>    end <span class="op">=</span> time.time()</span>
+<span id="cb14-15"><a href=""></a>    <span class="cf">return</span> end <span class="op">-</span> start</span>
+<span id="cb14-16"><a href=""></a></span>
+<span id="cb14-17"><a href=""></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb14-18"><a href=""></a>    numbers <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>))</span>
+<span id="cb14-19"><a href=""></a>    num_cores <span class="op">=</span> mp.cpu_count()</span>
+<span id="cb14-20"><a href=""></a></span>
+<span id="cb14-21"><a href=""></a>    <span class="co"># Sequential benchmark</span></span>
+<span id="cb14-22"><a href=""></a>    start_seq <span class="op">=</span> time.time()</span>
+<span id="cb14-23"><a href=""></a>    seq_result <span class="op">=</span> [square_function(x) <span class="cf">for</span> x <span class="kw">in</span> numbers]</span>
+<span id="cb14-24"><a href=""></a>    end_seq <span class="op">=</span> time.time()</span>
+<span id="cb14-25"><a href=""></a>    seq_time <span class="op">=</span> end_seq <span class="op">-</span> start_seq</span>
+<span id="cb14-26"><a href=""></a></span>
+<span id="cb14-27"><a href=""></a>    <span class="co"># Parallel benchmarks</span></span>
+<span id="cb14-28"><a href=""></a>    cores_to_test <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, num_cores <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb14-29"><a href=""></a>    times <span class="op">=</span> [benchmark_with_cores(numbers, c) <span class="cf">for</span> c <span class="kw">in</span> cores_to_test]</span>
+<span id="cb14-30"><a href=""></a>    speedups <span class="op">=</span> [seq_time <span class="op">/</span> t <span class="cf">for</span> t <span class="kw">in</span> times]</span>
+<span id="cb14-31"><a href=""></a></span>
+<span id="cb14-32"><a href=""></a>    <span class="co"># Print results</span></span>
+<span id="cb14-33"><a href=""></a>    <span class="bu">print</span>(<span class="ss">f"Sequential time: </span><span class="sc">{</span>seq_time<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
+<span id="cb14-34"><a href=""></a>    <span class="cf">for</span> c, t, s <span class="kw">in</span> <span class="bu">zip</span>(cores_to_test, times, speedups):</span>
+<span id="cb14-35"><a href=""></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>c<span class="sc">}</span><span class="ss"> cores -&gt; </span><span class="sc">{</span>t<span class="sc">:.2f}</span><span class="ss">s (</span><span class="sc">{</span>s<span class="sc">:.2f}</span><span class="ss">x speedup)"</span>)</span>
+<span id="cb14-36"><a href=""></a></span>
+<span id="cb14-37"><a href=""></a>    <span class="co"># Plot execution time</span></span>
+<span id="cb14-38"><a href=""></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb14-39"><a href=""></a>    plt.plot(cores_to_test, times, marker<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="st">"Execution Time"</span>)</span>
+<span id="cb14-40"><a href=""></a>    plt.title(<span class="st">"Execution Time vs Number of Cores"</span>)</span>
+<span id="cb14-41"><a href=""></a>    plt.xlabel(<span class="st">"Number of Cores"</span>)</span>
+<span id="cb14-42"><a href=""></a>    plt.ylabel(<span class="st">"Execution Time (seconds)"</span>)</span>
+<span id="cb14-43"><a href=""></a>    plt.grid()</span>
+<span id="cb14-44"><a href=""></a>    plt.savefig(<span class="st">"execution_time_vs_cores.png"</span>)</span>
+<span id="cb14-45"><a href=""></a>    plt.show()</span>
+<span id="cb14-46"><a href=""></a></span>
+<span id="cb14-47"><a href=""></a>    <span class="co"># Plot speedup curve</span></span>
+<span id="cb14-48"><a href=""></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb14-49"><a href=""></a>    plt.plot(cores_to_test, speedups, marker<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span><span class="st">'green'</span>, label<span class="op">=</span><span class="st">"Speedup"</span>)</span>
+<span id="cb14-50"><a href=""></a>    plt.plot(cores_to_test, cores_to_test, <span class="st">'--'</span>, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">"Ideal Speedup"</span>)</span>
+<span id="cb14-51"><a href=""></a>    plt.title(<span class="st">"Speedup vs Number of Cores"</span>)</span>
+<span id="cb14-52"><a href=""></a>    plt.xlabel(<span class="st">"Number of Cores"</span>)</span>
+<span id="cb14-53"><a href=""></a>    plt.ylabel(<span class="st">"Speedup (Relative to Sequential)"</span>)</span>
+<span id="cb14-54"><a href=""></a>    plt.legend()</span>
+<span id="cb14-55"><a href=""></a>    plt.grid()</span>
+<span id="cb14-56"><a href=""></a>    plt.savefig(<span class="st">"speedup_vs_cores.png"</span>)</span>
+<span id="cb14-57"><a href=""></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
+<section class="slide level2">
+
+
+<img data-src="images/clipboard-2870159685.png" class="r-stretch"></section>
+<section class="slide level2">
+
+
+<img data-src="images/clipboard-1984087838.png" class="r-stretch"></section>
 <section id="cloud-and-distributed-options" class="slide level2 smaller">
 <h2>Cloud and Distributed Options</h2>
 <h3 id="when-to-scale-beyond-local-machine">When to Scale Beyond Local Machine</h3>
@@ -838,7 +895,7 @@ Fernando Benitez
 </div></div>
 </section>
 <section id="takeaways" class="slide level2">
-<h2>takeaways</h2>
+<h2>Takeaways</h2>
 <ul>
 <li class="fragment"><strong>Parallel computing is powerful but not a silver bullet</strong></li>
 <li class="fragment"><strong>Spatial data characteristics make it especially beneficial</strong><br>
