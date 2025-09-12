@@ -135,7 +135,7 @@ results = [process_file(f) for f in files]
 :::
 :::::
 
-### Characteristics of Sequential Processing 
+### Characteristics of Sequential Processing
 
 -   **Predictable order**: Step 1, then Step 2, then Step 3...
 -   **Single-threaded**: Uses only one CPU core
@@ -317,20 +317,20 @@ The simultaneous execution of multiple computational tasks to solve a single pro
 
 ::::: columns
 ::: {.column width="50%"}
-**General Issues:** 
+**General Issues:**
 
-- **Amdahl's Law**: Speedup limited by sequential portions
-- **Overhead costs**: Thread creation, memory copying 
-- **Small datasets**: Overhead may exceed benefits
+-   **Amdahl's Law**: Speedup limited by sequential portions
+-   **Overhead costs**: Thread creation, memory copying
+-   **Small datasets**: Overhead may exceed benefits
 :::
 
 ::: {.column width="50%"}
-**Spatial-Specific Challenges:** 
+**Spatial-Specific Challenges:**
 
-- **Spatial dependencies**: Operations requiring neighbors  
-- **Irregular geometries**: Uneven computational loads\
-- **I/O limitations**: Reading large files bottlenecks 
-- **Memory bottlenecks**: Limited RAM shared across processes
+-   **Spatial dependencies**: Operations requiring neighbors\
+-   **Irregular geometries**: Uneven computational loads\
+-   **I/O limitations**: Reading large files bottlenecks
+-   **Memory bottlenecks**: Limited RAM shared across processes
 :::
 :::::
 
@@ -523,11 +523,12 @@ Dask provides a pandas-like API but with lazy evaluation and automatic paralleli
 ```{r}
 #| eval: false
 #| echo: true
-#| code-line-numbers: "|1-5|7-12|14-18|20-24"
+#| code-line-numbers: "|1-5|7-12|14-18|20-24|26-31|33-44"
 
 library(parallel)
+library(ggplot2)
 
-# Detect number of available cores
+# Detect cores
 num_cores <- detectCores()
 
 square_function <- function(x) {
@@ -541,21 +542,33 @@ numbers <- 1:10
 start_seq <- Sys.time()
 seq_result <- lapply(numbers, square_function)
 end_seq <- Sys.time()
-seq_time <- end_seq - start_seq
+seq_time <- as.numeric(difftime(end_seq, start_seq, units = "secs"))  # convert to numeric seconds
 
 # --- Parallel execution ---
 start_par <- Sys.time()
 par_result <- mclapply(numbers, square_function, mc.cores = num_cores)
 end_par <- Sys.time()
-par_time <- end_par - start_par
+par_time <- as.numeric(difftime(end_par, start_par, units = "secs"))  # convert to numeric seconds
 
-# --- Results ---
+# --- Print Results ---
 cat("Sequential result:", unlist(seq_result), "\n")
 cat("Parallel result:  ", unlist(par_result), "\n")
-cat("Sequential time:", seq_time, "\n")
-cat("Parallel time:  ", par_time, "\n")
-cat("Speedup factor: ", round(as.numeric(seq_time / par_time), 2), "x faster\n")
+cat("Sequential time:", seq_time, "seconds\n")
+cat("Parallel time:  ", par_time, "seconds\n")
+cat("Speedup factor: ", round(seq_time / par_time, 2), "x faster\n")
 
+# --- Plot ---
+df <- data.frame(
+  Method = c("Sequential", "Parallel"),
+  Time = c(seq_time, par_time)
+)
+
+ggplot(df, aes(x = Method, y = Time, fill = Method)) +
+  geom_bar(stat = "identity", width = 0.5) +
+  labs(title = "Sequential vs Parallel Execution Time",
+       y = "Execution Time (seconds)") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")
 ```
 :::
 
@@ -578,44 +591,89 @@ cat("Speedup factor: ", round(as.numeric(seq_time / par_time), 2), "x faster\n")
 
 ------------------------------------------------------------------------
 
+![](images/clipboard-2985706373.png)
+
+------------------------------------------------------------------------
+
+![](images/clipboard-636150272.png)
+
+------------------------------------------------------------------------
+
 ## Benchmarking in Python {.smaller}
 
 ```{python}
 #| eval: false
 #| echo: true
+#| code-line-numbers: "|1-3|5-8|9-16|17-25|27-30|32-35|37-57"
+
 
 import multiprocessing as mp
 import time
+import matplotlib.pyplot as plt
 
 def square_function(x):
-    time.sleep(0.5)  # simulate work
+    time.sleep(0.5)
     return x**2
+
+  def benchmark_with_cores(numbers, cores):
+    """Benchmark using a specific number of cores."""
+    start = time.time()
+    with mp.Pool(processes=cores) as pool:
+        _ = pool.map(square_function, numbers)
+    end = time.time()
+    return end - start
 
 if __name__ == "__main__":
     numbers = list(range(1, 11))
     num_cores = mp.cpu_count()
 
-    # --- Sequential execution ---
+    # Sequential benchmark
     start_seq = time.time()
     seq_result = [square_function(x) for x in numbers]
     end_seq = time.time()
     seq_time = end_seq - start_seq
 
-    # --- Parallel execution ---
-    start_par = time.time()
-    with mp.Pool(processes=num_cores) as pool:
-        par_result = pool.map(square_function, numbers)
-    end_par = time.time()
-    par_time = end_par - start_par
+    # Parallel benchmarks
+    cores_to_test = list(range(1, num_cores + 1))
+    times = [benchmark_with_cores(numbers, c) for c in cores_to_test]
+    speedups = [seq_time / t for t in times]
 
-    # --- Results ---
-    print(f"Sequential result: {seq_result}")
-    print(f"Parallel result:   {par_result}")
+    # Print results
     print(f"Sequential time: {seq_time:.2f}s")
-    print(f"Parallel time:   {par_time:.2f}s")
-    print(f"Speedup factor:  {seq_time / par_time:.2f}x faster")
+    for c, t, s in zip(cores_to_test, times, speedups):
+        print(f"{c} cores -> {t:.2f}s ({s:.2f}x speedup)")
+
+    # Plot execution time
+    plt.figure(figsize=(6, 4))
+    plt.plot(cores_to_test, times, marker='o', label="Execution Time")
+    plt.title("Execution Time vs Number of Cores")
+    plt.xlabel("Number of Cores")
+    plt.ylabel("Execution Time (seconds)")
+    plt.grid()
+    plt.savefig("execution_time_vs_cores.png")
+    plt.show()
+
+    # Plot speedup curve
+    plt.figure(figsize=(6, 4))
+    plt.plot(cores_to_test, speedups, marker='o', color='green', label="Speedup")
+    plt.plot(cores_to_test, cores_to_test, '--', color='red', label="Ideal Speedup")
+    plt.title("Speedup vs Number of Cores")
+    plt.xlabel("Number of Cores")
+    plt.ylabel("Speedup (Relative to Sequential)")
+    plt.legend()
+    plt.grid()
+    plt.savefig("speedup_vs_cores.png")
+    plt.show()
 
 ```
+
+------------------------------------------------------------------------
+
+![](images/clipboard-2870159685.png)
+
+------------------------------------------------------------------------
+
+![](images/clipboard-1984087838.png)
 
 ------------------------------------------------------------------------
 
@@ -627,39 +685,37 @@ if __name__ == "__main__":
 ::: {.column width="50%"}
 **R Options:**
 
-- **Azure ML**: Parallel R on cloud 
-- **AWS Batch**: Container-based processing
-- **Google Cloud Run**: Serverless R functions 
-- **Slurm clusters**: HPC environments
+-   **Azure ML**: Parallel R on cloud
+-   **AWS Batch**: Container-based processing
+-   **Google Cloud Run**: Serverless R functions
+-   **Slurm clusters**: HPC environments
 
-**Packages:** 
+**Packages:**
 
-- `clustermq`: HPC job scheduling 
-- `batchtools`: Batch job processing 
-- `future.batchtools`: Future with HPC backends
-
+-   `clustermq`: HPC job scheduling
+-   `batchtools`: Batch job processing
+-   `future.batchtools`: Future with HPC backends
 :::
 
 ::: {.column width="50%"}
-**Python Options:** 
+**Python Options:**
 
-- **Dask Gateway**: Managed dask clusters 
-- **Ray**: Distributed computing framework 
-- **Kubernetes**: Container orchestration 
-- **Spark**: Big data processing
+-   **Dask Gateway**: Managed dask clusters
+-   **Ray**: Distributed computing framework
+-   **Kubernetes**: Container orchestration
+-   **Spark**: Big data processing
 
-**Cloud Services:** 
+**Cloud Services:**
 
-- AWS EMR, Google Dataproc - Azure HDInsight, Databricks - Pangeo cloud deployments
+-   AWS EMR, Google Dataproc - Azure HDInsight, Databricks - Pangeo cloud deployments
 :::
 :::::
 
 ------------------------------------------------------------------------
 
-## takeaways
+## Takeaways
 
 ::: incremental
-
 -   **Parallel computing is powerful but not a silver bullet**
 -   **Spatial data characteristics make it especially beneficial**\
 -   **Choose the right tool for your language and problem scale**
