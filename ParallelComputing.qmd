@@ -1,0 +1,691 @@
+---
+title: "Parallel Computing for Spatial Data"
+subtitle: "Why is it relevant for us?"
+author: "Fernando Benitez"
+date: today
+format:
+  revealjs:
+    theme: [default]
+    slide-number: true
+    chalkboard: true
+    preview-links: auto
+    transition: slide
+    background-transition: fade
+    code-fold: true
+    code-summary: "Show code"
+    highlight-style: github
+    incremental: false
+    width: 1280
+    height: 720
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Overview {.smaller}
+
+::: incremental
+-   Understanding parallel computing basics
+-   Why do we (spatial data) need parallel processing
+-   Key concepts and differences from sequential computing
+-   Essential libraries and tools (R and Python)
+-   Final considerations
+:::
+
+::: notes
+Spatial data is growing exponentially - from satellite imagery to GPS tracking, LiDAR scans to climate models. Traditional sequential processing can't keep up with the scale and complexity of modern geospatial analysis.
+:::
+
+------------------------------------------------------------------------
+
+## How Does Computer Processing Work? {.smaller}
+
+### Basics - Central Processing Unit (CPU)
+
+![](images/clipboard-3471543731.png){fig-align="center" width="443"}
+
+::: notes
+-   **Brain of the computer**
+-   Executes instructions one by one
+-   Modern CPUs have multiple **cores**
+-   Each core can handle separate tasks
+:::
+
+------------------------------------------------------------------------
+
+## How Does Computer Processing Work? {.smaller}
+
+### Basics GPU - Graphics Processing Unit
+
+![](images/clipboard-148383346.png){fig-align="center" width="300"}
+
+::: notes
+Designed for parallel processing and it uses dedicated memory known as VRAM (Video RAM). They are designed to tackle thousands of operations at once for tasks like rendering images, 3D rendering, processing video, and running machine learning models.
+:::
+
+------------------------------------------------------------------------
+
+## How Does Computer Processing Work? {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+### RAM
+
+-   **Temporary storage** for active data
+-   **Shared resource** across all processes
+-   **Faster access** than disk storage
+:::
+
+::: {.column width="50%"}
+### Traditional Processing Flow
+
+1.  **Load** data from storage to memory
+2.  **Process** data using CPU instructions
+3.  **Store** results back to memory/disk
+4.  **Repeat** for next piece of data
+:::
+:::::
+
+::: notes
+Before jumping into parallel computing, it's essential to understand how computers actually process data. This sets the foundation for understanding why we might want to change this approach.
+:::
+
+------------------------------------------------------------------------
+
+## Often how code works by default {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+### Sequential Execution
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: "|1-5|7-11|13-17"
+
+# Traditional for loop in R
+results <- numeric(1000)
+for(i in 1:1000) {
+  results[i] <- expensive_calculation(i)
+}
+
+# Sequential function calls
+file1_result <- process_raster("file1.tif")
+```
+:::
+
+::: {.column width="50%"}
+### Python Examples
+
+```{python}
+#| eval: false
+#| echo: true
+
+# Traditional for loop in Python
+results = []
+for filename in file_list:
+    data = load_raster(filename)
+    processed = apply_filter(data)
+    results.append(processed)
+
+# List comprehension still sequential!
+results = [process_file(f) for f in files]
+```
+:::
+:::::
+
+### Characteristics of Sequential Processing 
+
+-   **Predictable order**: Step 1, then Step 2, then Step 3...
+-   **Single-threaded**: Uses only one CPU core
+-   **Blocking**: Each operation waits for the previous to complete
+-   **Simple to debug**: Linear execution flow - Useful when you are creating a method.
+
+------------------------------------------------------------------------
+
+## Sequential processing timeline {.smaller}
+
+### Visualizing Sequential vs. Available Resources
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Imagine: Processing 4 large raster files
+# Each file takes approx 10 minutes to process on a 4-core machine
+
+# Sequential processing timeline:
+# Core 1: [File1: 10min] -> [File2: 10min] -> [File3: 10min] -> [File4: 10min]
+# Core 2: [  IDLE   ] -> [  IDLE   ] -> [  IDLE   ] -> [  IDLE   ]
+# Core 3: [  IDLE   ] -> [  IDLE   ] -> [  IDLE   ] -> [  IDLE   ]  
+# Core 4: [  IDLE   ] -> [  IDLE   ] -> [  IDLE   ] -> [  IDLE   ]
+# Total Time: 40 minutes, 75% of CPU capacity wasted!
+```
+
+::: callout-important
+## The Problem
+
+Most computers today have 4, 8, 16, or even more CPU cores, but traditional sequential code only uses **one core at a time**!
+:::
+
+### Imagine
+
+Having a kitchen with 4 chefs, but only one chef works at a time while the other three stand idle. That's sequential processing with multiple CPU cores.
+
+------------------------------------------------------------------------
+
+## When do we need parallel computing? {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+### Time Constraints
+
+```{r}
+#| eval: false
+#| echo: true
+
+# **Processing 1000 satellite images**
+# Sequential: 1000 × 2 minutes = 33 hours
+# Parallel (8 cores): ~4 hours
+```
+
+### Memory Limitations
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Large dataset that doesn't fit in RAM (Imitated)
+# Sequential: Process in small chunks, when is possible (python)
+# Parallel: Process multiple chunks simultaneously (no cores)
+```
+:::
+
+::: {.column width="50%"}
+### Computational intensity
+
+-   **Machine learning** model training
+-   **Spatial interpolation** across large areas
+-   **Geostatistical** analysis with millions of points
+-   **Image classification** of high-resolution imagery
+-   **Simulation models** with many parameters
+
+### Logistics requirements
+
+-   **Real-time** processing needs
+-   **Batch processing** overnight jobs
+-   **Cost optimization** (time = money)
+-   **User experience** (web applications)
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## The Parallel Computing {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+### Modern Hardware Reality
+
+-   **Laptops**: 4-8 cores typical (even better)
+-   **Workstations**: 8-32 cores common (BEGIN)
+-   **Servers**: 64-128 cores available (not BEGIN)
+-   **Cloud instances**: Scalable to hundreds of cores (but you need to pay)
+
+### The issue
+
+-   Most spatial analysis code uses **1 core**
+-   **3-31 cores sit idle** during processing
+-   **Massive under-utilization** of available resources
+:::
+
+::: {.column width="50%"}
+### Parallel Processing Timeline
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Same 4 files, now processed in parallel:
+# Core 1: [File1: 10min] -> [DONE]
+# Core 2: [File2: 10min] -> [DONE]  
+# Core 3: [File3: 10min] -> [DONE]
+# Core 4: [File4: 10min] -> [DONE]
+# Total Time: 10 minutes!
+# 4x speedup achieved
+```
+
+### When it makes sense?
+
+-   **Large datasets** or many files
+-   **Repetitive operations** across data subsets
+-   **Independent calculations** that don't depend on each other (KEY)
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## What is Parallel Computing? {.smaller}
+
+### Definition
+
+The simultaneous execution of multiple computational tasks to solve a single problem faster than sequential processing.
+
+### Key Principles
+
+-   **Decomposition**: Breaking problems into smaller tasks
+-   **Distribution**: Assigning tasks to multiple processors (cores)
+-   **Coordination**: Managing communication between processes (thread)
+-   **Aggregation**: Combining results from parallel tasks (joins)
+
+------------------------------------------------------------------------
+
+## Sequential vs. Parallel Computing {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+### Sequential Computing
+
+-   One task executed at a time
+-   Linear progression through instructions\
+-   Predictable execution order
+-   Single point of failure
+
+**Performance:** Time = n × task_time
+:::
+
+::: {.column width="50%"}
+### Parallel Computing
+
+-   Multiple tasks executed simultaneously
+-   Non-linear, distributed processing
+-   Complex coordination required
+-   Potential for race conditions
+
+**Performance:** Time = n × task_time ÷ cores (theoretical)
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Important Caveats
+
+::: callout-caution
+## Parallel Computing is not always faster!
+:::
+
+::::: columns
+::: {.column width="50%"}
+**General Issues:** 
+
+- **Amdahl's Law**: Speedup limited by sequential portions
+- **Overhead costs**: Thread creation, memory copying 
+- **Small datasets**: Overhead may exceed benefits
+:::
+
+::: {.column width="50%"}
+**Spatial-Specific Challenges:** 
+
+- **Spatial dependencies**: Operations requiring neighbors  
+- **Irregular geometries**: Uneven computational loads\
+- **I/O limitations**: Reading large files bottlenecks 
+- **Memory bottlenecks**: Limited RAM shared across processes
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## When to Use Parallel Computing
+
+::::: columns
+::: {.column width="50%"}
+### Parallel Computing when:
+
+-   Dataset size \> available RAM
+-   Processing time \> 10-15 minutes sequentially
+-   Multiple CPU cores available
+-   Repeating similar operations across subsets
+:::
+
+::: {.column width="50%"}
+### Not Parallel Computing when:
+
+-   Small datasets (\< 1GB typically)
+-   Complex spatial dependencies between all points
+-   Limited memory available\
+-   I/O bound operations dominate
+-   Code complexity isn't worth the gain
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## R Libraries for Parallel Spatial Computing
+
+### Core Parallel Libraries {.smaller}
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Core parallel computing
+library(parallel)      # Built-in multicore and cluster computing  
+library(foreach)       # Elegant parallel loops with %dopar%
+library(future)        # Modern asynchronous programming framework
+library(doParallel)    # Parallel backend for foreach
+```
+
+### Spatial-Specific Packages {.smaller}
+
+```{r}
+#| eval: false  
+#| echo: true
+
+# Spatial packages with parallel support
+library(terra)         # Modern raster processing with built-in parallelization
+library(sf)           # Simple features with parallel-aware operations
+library(stars)        # Spatiotemporal arrays with parallel support  
+library(exactextractr) # Fast raster extractions using parallel processing
+```
+
+------------------------------------------------------------------------
+
+## R Example Code {.smaller}
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: "|1-3|4-6|7-10|12-14|15-16"
+
+# Load library
+library(parallel)
+
+# Detect number of available cores
+num_cores <- detectCores()
+
+# Function to apply
+square_function <- function(x) {
+  Sys.sleep(0.5) # simulate work
+  return(x^2)
+}
+
+# Apply function in parallel
+result <- mclapply(1:10, square_function, mc.cores = num_cores)
+
+print(result)
+
+```
+
+::: notes
+This shows a typical workflow: setup parallel backend, use foreach with %dopar%, remember to load required packages in each worker, and clean up resources.
+:::
+
+------------------------------------------------------------------------
+
+## Python Libraries for Parallel Spatial Computing
+
+### Core Parallel Libraries {.smaller}
+
+```{python}
+#| eval: false
+#| echo: true
+
+# Core parallel computing
+import multiprocessing          # Built-in process-based parallelism
+from concurrent.futures import ProcessPoolExecutor  # High-level parallel execution  
+from joblib import Parallel, delayed  # Efficient scientific computing
+import dask                     # Scalable parallel computing
+```
+
+### Spatial-Specific Libraries {.smaller}
+
+```{python}
+#| eval: false
+#| echo: true
+
+# Spatial packages with parallel support
+import rasterio                 # Raster I/O with dask integration
+import geopandas as gpd        # Spatial dataframes  
+import xarray as xr            # N-dimensional arrays with dask
+import rioxarray as rxr        # Rasterio + xarray integration
+```
+
+------------------------------------------------------------------------
+
+## Python Example Code {.smaller}
+
+```{python}
+#| eval: false
+#| echo: true
+#| code-line-numbers: "|1-4|5-7|8-11|12-16"
+
+import multiprocessing as mp
+import time
+
+def square_function(x):
+    time.sleep(0.5)  # simulate work
+    return x**2
+
+if __name__ == "__main__":
+    # Detect number of available cores
+    num_cores = mp.cpu_count()
+    
+    with mp.Pool(processes=num_cores) as pool:
+        result = pool.map(square_function, range(1, 11))
+    
+    print(result)
+
+```
+
+::: notes
+Dask provides a pandas-like API but with lazy evaluation and automatic parallelization. The chunks parameter is crucial for memory management.
+:::
+
+------------------------------------------------------------------------
+
+## Top 5 Considerations for Parallel Processing
+
+### 1. Memory Management {.smaller}
+
+-   Monitor RAM usage per process
+-   Use chunking strategies for large datasets\
+-   Implement garbage collection between iterations
+
+### 2. Load Balancing {.smaller}
+
+-   Distribute work evenly across cores
+-   Account for varying computational complexity
+-   Use dynamic scheduling when possible
+
+------------------------------------------------------------------------
+
+## Top 5 Considerations (continued)
+
+### 3. I/O Optimization {.smaller}
+
+-   Minimize file system bottlenecks
+-   Pre-load data when possible
+-   Use efficient file formats (HDF5, Parquet, COG)
+
+### 4. Error Handling and Debugging {.smaller}
+
+-   Implement robust error catching
+-   Use logging to track parallel processes\
+-   Test with smaller datasets first
+
+------------------------------------------------------------------------
+
+## Benchmarking in R {.smaller}
+
+::::: columns
+::: {.column width="60%"}
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: "|1-5|7-12|14-18|20-24"
+
+library(parallel)
+
+# Detect number of available cores
+num_cores <- detectCores()
+
+square_function <- function(x) {
+  Sys.sleep(0.5) # simulate work
+  x^2
+}
+
+numbers <- 1:10
+
+# --- Sequential execution ---
+start_seq <- Sys.time()
+seq_result <- lapply(numbers, square_function)
+end_seq <- Sys.time()
+seq_time <- end_seq - start_seq
+
+# --- Parallel execution ---
+start_par <- Sys.time()
+par_result <- mclapply(numbers, square_function, mc.cores = num_cores)
+end_par <- Sys.time()
+par_time <- end_par - start_par
+
+# --- Results ---
+cat("Sequential result:", unlist(seq_result), "\n")
+cat("Parallel result:  ", unlist(par_result), "\n")
+cat("Sequential time:", seq_time, "\n")
+cat("Parallel time:  ", par_time, "\n")
+cat("Speedup factor: ", round(as.numeric(seq_time / par_time), 2), "x faster\n")
+
+```
+:::
+
+::: {.column width="40%"}
+### Key Steps:
+
+1.  **Profile** first
+2.  **Identify** bottlenecks\
+3.  **Choose** strategy
+4.  **Implement** gradually
+5.  **Benchmark** results
+
+### Remember:
+
+-   Start simple
+-   Test thoroughly
+-   Scale incrementally
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Benchmarking in Python {.smaller}
+
+```{python}
+#| eval: false
+#| echo: true
+
+import multiprocessing as mp
+import time
+
+def square_function(x):
+    time.sleep(0.5)  # simulate work
+    return x**2
+
+if __name__ == "__main__":
+    numbers = list(range(1, 11))
+    num_cores = mp.cpu_count()
+
+    # --- Sequential execution ---
+    start_seq = time.time()
+    seq_result = [square_function(x) for x in numbers]
+    end_seq = time.time()
+    seq_time = end_seq - start_seq
+
+    # --- Parallel execution ---
+    start_par = time.time()
+    with mp.Pool(processes=num_cores) as pool:
+        par_result = pool.map(square_function, numbers)
+    end_par = time.time()
+    par_time = end_par - start_par
+
+    # --- Results ---
+    print(f"Sequential result: {seq_result}")
+    print(f"Parallel result:   {par_result}")
+    print(f"Sequential time: {seq_time:.2f}s")
+    print(f"Parallel time:   {par_time:.2f}s")
+    print(f"Speedup factor:  {seq_time / par_time:.2f}x faster")
+
+```
+
+------------------------------------------------------------------------
+
+## Cloud and Distributed Options {.smaller}
+
+### When to Scale Beyond Local Machine
+
+::::: columns
+::: {.column width="50%"}
+**R Options:**
+
+- **Azure ML**: Parallel R on cloud 
+- **AWS Batch**: Container-based processing
+- **Google Cloud Run**: Serverless R functions 
+- **Slurm clusters**: HPC environments
+
+**Packages:** 
+
+- `clustermq`: HPC job scheduling 
+- `batchtools`: Batch job processing 
+- `future.batchtools`: Future with HPC backends
+
+:::
+
+::: {.column width="50%"}
+**Python Options:** 
+
+- **Dask Gateway**: Managed dask clusters 
+- **Ray**: Distributed computing framework 
+- **Kubernetes**: Container orchestration 
+- **Spark**: Big data processing
+
+**Cloud Services:** 
+
+- AWS EMR, Google Dataproc - Azure HDInsight, Databricks - Pangeo cloud deployments
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## takeaways
+
+::: incremental
+
+-   **Parallel computing is powerful but not a silver bullet**
+-   **Spatial data characteristics make it especially beneficial**\
+-   **Choose the right tool for your language and problem scale**
+-   **Always profile and test your parallel implementations**
+-   **Start simple and scale complexity as needed**
+:::
+
+------------------------------------------------------------------------
+
+## Resources {.smaller}
+
+-   "Parallel R" by McCallum & Weston
+-   "Python Parallel Programming Cookbook" by Zaccone
+-   Dask documentation: [dask.org](https://dask.org)
+-   Future package vignettes: [future.futureverse.org](https://future.futureverse.org)
+
+### Online Resources
+
+-   Parallel processing in R: [CRAN Task View](https://cran.r-project.org/web/views/HighPerformanceComputing.html)
+-   Geospatial parallel computing: [r-spatial.org](https://r-spatial.org)
+-   Pangeo community: [pangeo.io](https://pangeo.io)
+
+------------------------------------------------------------------------
+
+## Questions
+
+Thank you!
+
+------------------------------------------------------------------------
