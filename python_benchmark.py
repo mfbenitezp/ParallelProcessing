@@ -2,7 +2,6 @@ import multiprocessing as mp
 import time
 import matplotlib.pyplot as plt
 
-# --- Define the function at top level ---
 def square_function(x):
     time.sleep(0.5)
     return x**2
