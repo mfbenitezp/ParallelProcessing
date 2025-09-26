@@ -1,0 +1,207 @@
+---
+title: "Git, GitHub, Reproducible Science"
+subtitle: "Why is it relevant for us?"
+author: "Fernando Benitez"
+date: today
+format:
+  revealjs:
+    theme: [default]
+    slide-number: true
+    chalkboard: true
+    preview-links: auto
+    transition: slide
+    background-transition: fade
+    code-fold: true
+    code-summary: "Show code"
+    highlight-style: github
+    incremental: false
+    width: 1280
+    height: 720
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Reproducible Research {.smaller}
+
+![](images/clipboard-4054108624.png)
+
+------------------------------------------------------------------------
+
+## Definitions for Reproducibility
+
+![](images/clipboard-1078746286.png){width="668"}
+
+https://book.the-turing-way.org/reproducible-research/overview/overview-definitions/
+
+------------------------------------------------------------------------
+
+## Why is important?: Added Advantages
+
+![](images/clipboard-1973179916.png)
+
+https://book.the-turing-way.org/reproducible-research/overview/overview-benefit/
+
+------------------------------------------------------------------------
+
+## Barriers to reproducibility/replicability
+
+![](images/clipboard-3520119822.png)
+
+To “plead the fifth” means that someone chooses not to give evidence that there might have been something wrong in their past behavior. They have the right to remain silent.
+
+------------------------------------------------------------------------
+
+## Open Research
+
+Aims to transform research by making it more reproducible, transparent, reusable, collaborative, accountable, and accessible to society. It pushes for change in the way that research is carried out and disseminated by digital tools. McKiernan et al. (2016) states that open access articles are cited more often
+
+![](images/clipboard-2905191096.png)
+
+------------------------------------------------------------------------
+
+## Version Control: Git basics {.smaller}
+
+![](images/clipboard-2767655183.png)
+
+A tool that let you track your progress over time.
+
+-   It is an open-source software for version control, which means that it tracks changes to your files as you work on them over time.
+
+-   Similar to “track changes” feature in a word document, except you must choose which versions to include in the tracking—it is not automatic.
+
+-   It can be tricky. Widely used in academia and industry.
+
+------------------------------------------------------------------------
+
+## Essentially, Git takes snapshots {.smaller}
+
+Save snapshots to your history to retrace your steps.
+
+Also keeps others up-to-date with your latest work.
+
+![](images/clipboard-2178034301.png)
+
+------------------------------------------------------------------------
+
+## But why? {.smaller}
+
+Centralized systems require coordination…
+
+![](images/clipboard-3336802353.png){width="561"}
+
+------------------------------------------------------------------------
+
+## Order with coordination: {.smaller}
+
+-   In a centralized system, you can objectively call versions a numerical progression: version 1, version 2, version 3…
+
+-   Since John made a new version before Vanessa, his is n+1, and Vanessa is n+2.
+
+![](images/clipboard-1447344573.png){width="347"}
+
+------------------------------------------------------------------------
+
+## Working in parallel: Order without coordination {.smaller}
+
+**Git** goes after this idea of distributed version control, so you can keep track of your versions without coordination.
+
+![](images/clipboard-2610690961.png){width="460"}
+
+------------------------------------------------------------------------
+
+## A repository holds the entire history of your project {.smaller}
+
+-   A repository is the unit of separation between projects in Git.
+
+-   Each project, library or discrete piece of software should have it’s own repository.
+
+![](images/clipboard-3238400656.png)
+
+------------------------------------------------------------------------
+
+## Create a repository {.smaller}
+
+``` bash
+cd desktop
+git init exercise-1  
+cd exercise-1
+ls -la
+```
+
+![](images/clipboard-2169326769.png)
+
+------------------------------------------------------------------------
+
+## In another way {.smaller}
+
+![](images/clipboard-3353947039.png)
+
+------------------------------------------------------------------------
+
+## Use the staging area to build a commit {.smaller}
+
+![](images/clipboard-3946611766.png)
+
+------------------------------------------------------------------------
+
+![](images/clipboard-3469578800.png)
+
+------------------------------------------------------------------------
+
+![](images/clipboard-3132821764.png)
+
+------------------------------------------------------------------------
+
+## Terminology
+
+::: incremental
+-   **Repository**: Is a project (a folder) containing files and sub-folders. A repository tracks versions of files and folders.
+
+-   **Branch**: A branch is a parallel version of your repository. By default, your repository has one branch named main and is considered the definitive branch. You can use branches to have different project versions at once.
+
+-   **Clone**: Local copy of a repository stored on the cloud. Clones can be synced up with their originals in the GitHub repository.
+
+-   **Commit**: A commit is a set of changes to the files and folders in your project. A commit exists in a branch.
+:::
+
+------------------------------------------------------------------------
+
+## Terminology - 2
+
+::: incremental
+-   **Fork**: “Forking” is when you copy another user’s repository to your account. You can make any changes to your forked copy, leaving the original unaffected. 
+
+-   **Pull/push:** Merging changes made to the repository files into the local copy you’re working on is called “pulling.” A “push” is the reverse — updating the repository files with changes you’ve made to your local copy.
+
+-   **Pull request:** Collaboration happens on a pull request. The pull request shows the changes in your branch to other people. This pull request will keep the changes you just made on your branch and propose applying them to the main branch.
+
+-   **Merge**: A merge adds the changes in your pull request and branch into the main branch
+:::
+
+------------------------------------------------------------------------
+
+## More resources {.smaller}
+
+### **Reproducibility**
+
+-   Markowetz, F. (2018). 5 selfish reasons to work reproducibly. Slides available at [**https://osf.io/a8wq4/**](https://osf.io/a8wq4/). Recording from a talk at Data Stewardship TU Delft in 2019. [**https://youtu.be/yVT07Sukv9Q**](https://youtu.be/yVT07Sukv9Q).
+
+-   Leipzig, J (2020). Awesome Reproducible Research: A curated list of reproducible research case studies, projects, tutorials, and media. Github repo. [**https://github.com/leipzig/awesome-reproducible-research**](https://github.com/leipzig/awesome-reproducible-research)
+
+### **Data Science**
+
+-   *Data science: A guide for society*. Ask for Evidence. (2019). Retrieved October 26, 2021, from [**https://askforevidence.org/articles/data-science-a-guide-for-society**](https://askforevidence.org/articles/data-science-a-guide-for-society).
+
+-   Riley, E. (2019). Data Science Guide for Society. London; [**senseaboutscience.org**](http://senseaboutscience.org/).
+
+-   The Open Data Institute. (2019). *Knowledge & opinion*. The ODI. Retrieved October 26, 2021, from [**https://theodi.org/article/data-ethics-canvas**](https://theodi.org/article/data-ethics-canvas).
+
+------------------------------------------------------------------------
+
+## Questions
+
+Thank you!
+
+------------------------------------------------------------------------
