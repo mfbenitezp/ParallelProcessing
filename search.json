@@ -170,9 +170,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "BEGIN Fri Cake",
+    "title": "BEGIN Friday Cake Seminar Series",
     "section": "",
-    "text": "Welcome\nThis is the website for my Parallel Computing lectures and notes.\n\nLecture Slides\nGit Intro"
+    "text": "Welcome\nWelcome to the BEGIN Friday Seminar Series hosted by our research group.\nHere you’ll find slides and resources for each session as we explore topics relevant to our research.\n\nParallel Computing\nIntroduction to parallel computing concepts, examples, and applications.\n\n\nGit & Version Control\nA practical introduction to Git for collaborative research workflows."
   },
   {
     "objectID": "Git.html#reproducible-research",

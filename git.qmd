@@ -37,7 +37,8 @@ https://book.the-turing-way.org/reproducible-research/overview/overview-definiti
 
 ------------------------------------------------------------------------
 
-## Why is important?: Added Advantages
+## Why is important?: Added Advantages {.smaller}
+
 
 ![](images/clipboard-1973179916.png)
 
@@ -45,7 +46,8 @@ https://book.the-turing-way.org/reproducible-research/overview/overview-benefit/
 
 ------------------------------------------------------------------------
 
-## Barriers to reproducibility/replicability
+## Barriers to reproducibility/replicability {.smaller}
+
 
 ![](images/clipboard-3520119822.png)
 
@@ -53,7 +55,8 @@ To “plead the fifth” means that someone chooses not to give evidence that th
 
 ------------------------------------------------------------------------
 
-## Open Research
+## Open Research {.smaller}
+
 
 Aims to transform research by making it more reproducible, transparent, reusable, collaborative, accountable, and accessible to society. It pushes for change in the way that research is carried out and disseminated by digital tools. McKiernan et al. (2016) states that open access articles are cited more often
 
