@@ -1,0 +1,303 @@
+[
+  {
+    "objectID": "ParallelComputing.html#overview",
+    "href": "ParallelComputing.html#overview",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Overview",
+    "text": "Overview\n\nUnderstanding parallel computing basics\n\nWhy do we (spatial data) need parallel processing\nKey concepts and differences from sequential computing\nEssential libraries and tools (R and Python)\nFinal considerations\n\n\n\nSpatial data is growing exponentially - from satellite imagery to GPS tracking, LiDAR scans to climate models. Traditional sequential processing can’t keep up with the scale and complexity of modern geospatial analysis."
+  },
+  {
+    "objectID": "ParallelComputing.html#how-does-computer-processing-work",
+    "href": "ParallelComputing.html#how-does-computer-processing-work",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "How Does Computer Processing Work?",
+    "text": "How Does Computer Processing Work?\nBasics - Central Processing Unit (CPU)\n\n\n\nBrain of the computer\nExecutes instructions one by one\nModern CPUs have multiple cores\nEach core can handle separate tasks"
+  },
+  {
+    "objectID": "ParallelComputing.html#how-does-computer-processing-work-1",
+    "href": "ParallelComputing.html#how-does-computer-processing-work-1",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "How Does Computer Processing Work?",
+    "text": "How Does Computer Processing Work?\nBasics GPU - Graphics Processing Unit\n\n\nDesigned for parallel processing and it uses dedicated memory known as VRAM (Video RAM). They are designed to tackle thousands of operations at once for tasks like rendering images, 3D rendering, processing video, and running machine learning models."
+  },
+  {
+    "objectID": "ParallelComputing.html#how-does-computer-processing-work-2",
+    "href": "ParallelComputing.html#how-does-computer-processing-work-2",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "How Does Computer Processing Work?",
+    "text": "How Does Computer Processing Work?\n\n\nRAM\n\nTemporary storage for active data\nShared resource across all processes\nFaster access than disk storage\n\n\nTraditional Processing Flow\n\nLoad data from storage to memory\nProcess data using CPU instructions\nStore results back to memory/disk\nRepeat for next piece of data\n\n\n\nBefore jumping into parallel computing, it’s essential to understand how computers actually process data. This sets the foundation for understanding why we might want to change this approach."
+  },
+  {
+    "objectID": "ParallelComputing.html#often-how-code-works-by-default",
+    "href": "ParallelComputing.html#often-how-code-works-by-default",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Often how code works by default",
+    "text": "Often how code works by default\n\n\nSequential Execution\n\n\nShow code\n# Traditional for loop in R\nresults &lt;- numeric(1000)\nfor(i in 1:1000) {\n  results[i] &lt;- expensive_calculation(i)\n}\n\n# Sequential function calls\nfile1_result &lt;- process_raster(\"file1.tif\")\n\n\n\nPython Examples\n\n\nShow code\n# Traditional for loop in Python\nresults = []\nfor filename in file_list:\n    data = load_raster(filename)\n    processed = apply_filter(data)\n    results.append(processed)\n\n# List comprehension still sequential!\nresults = [process_file(f) for f in files]\n\n\n\nCharacteristics of Sequential Processing\n\nPredictable order: Step 1, then Step 2, then Step 3…\nSingle-threaded: Uses only one CPU core\nBlocking: Each operation waits for the previous to complete\nSimple to debug: Linear execution flow - Useful when you are creating a method."
+  },
+  {
+    "objectID": "ParallelComputing.html#sequential-processing-timeline",
+    "href": "ParallelComputing.html#sequential-processing-timeline",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Sequential processing timeline",
+    "text": "Sequential processing timeline\nVisualizing Sequential vs. Available Resources\n\n\nShow code\n# Imagine: Processing 4 large raster files\n# Each file takes approx 10 minutes to process on a 4-core machine\n\n# Sequential processing timeline:\n# Core 1: [File1: 10min] -&gt; [File2: 10min] -&gt; [File3: 10min] -&gt; [File4: 10min]\n# Core 2: [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ]\n# Core 3: [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ]  \n# Core 4: [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ]\n# Total Time: 40 minutes, 75% of CPU capacity wasted!\n\n\n\n\n\n\n\n\nThe Problem\n\n\nMost computers today have 4, 8, 16, or even more CPU cores, but traditional sequential code only uses one core at a time!\n\n\n\nImagine\nHaving a kitchen with 4 chefs, but only one chef works at a time while the other three stand idle. That’s sequential processing with multiple CPU cores."
+  },
+  {
+    "objectID": "ParallelComputing.html#when-do-we-need-parallel-computing",
+    "href": "ParallelComputing.html#when-do-we-need-parallel-computing",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "When do we need parallel computing?",
+    "text": "When do we need parallel computing?\n\n\nTime Constraints\n\n\nShow code\n# **Processing 1000 satellite images**\n# Sequential: 1000 × 2 minutes = 33 hours\n# Parallel (8 cores): ~4 hours\n\n\nMemory Limitations\n\n\nShow code\n# Large dataset that doesn't fit in RAM (Imitated)\n# Sequential: Process in small chunks, when is possible (python)\n# Parallel: Process multiple chunks simultaneously (no cores)\n\n\n\nComputational intensity\n\nMachine learning model training\nSpatial interpolation across large areas\nGeostatistical analysis with millions of points\nImage classification of high-resolution imagery\nSimulation models with many parameters\n\nLogistics requirements\n\nReal-time processing needs\nBatch processing overnight jobs\nCost optimization (time = money)\nUser experience (web applications)"
+  },
+  {
+    "objectID": "ParallelComputing.html#the-parallel-computing",
+    "href": "ParallelComputing.html#the-parallel-computing",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "The Parallel Computing",
+    "text": "The Parallel Computing\n\n\nModern Hardware Reality\n\nLaptops: 4-8 cores typical (even better)\nWorkstations: 8-32 cores common (BEGIN)\nServers: 64-128 cores available (not BEGIN)\nCloud instances: Scalable to hundreds of cores (but you need to pay)\n\nThe issue\n\nMost spatial analysis code uses 1 core\n3-31 cores sit idle during processing\nMassive under-utilization of available resources\n\n\nParallel Processing Timeline\n\n\nShow code\n# Same 4 files, now processed in parallel:\n# Core 1: [File1: 10min] -&gt; [DONE]\n# Core 2: [File2: 10min] -&gt; [DONE]  \n# Core 3: [File3: 10min] -&gt; [DONE]\n# Core 4: [File4: 10min] -&gt; [DONE]\n# Total Time: 10 minutes!\n# 4x speedup achieved\n\n\nWhen it makes sense?\n\nLarge datasets or many files\nRepetitive operations across data subsets\nIndependent calculations that don’t depend on each other (KEY)"
+  },
+  {
+    "objectID": "ParallelComputing.html#what-is-parallel-computing",
+    "href": "ParallelComputing.html#what-is-parallel-computing",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "What is Parallel Computing?",
+    "text": "What is Parallel Computing?\nDefinition\nThe simultaneous execution of multiple computational tasks to solve a single problem faster than sequential processing.\nKey Principles\n\nDecomposition: Breaking problems into smaller tasks\nDistribution: Assigning tasks to multiple processors (cores)\nCoordination: Managing communication between processes (thread)\nAggregation: Combining results from parallel tasks (joins)"
+  },
+  {
+    "objectID": "ParallelComputing.html#sequential-vs.-parallel-computing",
+    "href": "ParallelComputing.html#sequential-vs.-parallel-computing",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Sequential vs. Parallel Computing",
+    "text": "Sequential vs. Parallel Computing\n\n\nSequential Computing\n\nOne task executed at a time\nLinear progression through instructions\n\nPredictable execution order\nSingle point of failure\n\nPerformance: Time = n × task_time\n\nParallel Computing\n\nMultiple tasks executed simultaneously\nNon-linear, distributed processing\nComplex coordination required\nPotential for race conditions\n\nPerformance: Time = n × task_time ÷ cores (theoretical)"
+  },
+  {
+    "objectID": "ParallelComputing.html#important-caveats",
+    "href": "ParallelComputing.html#important-caveats",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Important Caveats",
+    "text": "Important Caveats\n\n\n\n\n\n\nParallel Computing is not always faster!\n\n\n\n\n\n\n\n\nGeneral Issues:\n\nAmdahl’s Law: Speedup limited by sequential portions\nOverhead costs: Thread creation, memory copying\nSmall datasets: Overhead may exceed benefits\n\n\nSpatial-Specific Challenges:\n\nSpatial dependencies: Operations requiring neighbors\n\nIrregular geometries: Uneven computational loads\n\nI/O limitations: Reading large files bottlenecks\nMemory bottlenecks: Limited RAM shared across processes"
+  },
+  {
+    "objectID": "ParallelComputing.html#when-to-use-parallel-computing",
+    "href": "ParallelComputing.html#when-to-use-parallel-computing",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "When to Use Parallel Computing",
+    "text": "When to Use Parallel Computing\n\n\nParallel Computing when:\n\nDataset size &gt; available RAM\nProcessing time &gt; 10-15 minutes sequentially\nMultiple CPU cores available\nRepeating similar operations across subsets\n\n\nNot Parallel Computing when:\n\nSmall datasets (&lt; 1GB typically)\nComplex spatial dependencies between all points\nLimited memory available\n\nI/O bound operations dominate\nCode complexity isn’t worth the gain"
+  },
+  {
+    "objectID": "ParallelComputing.html#r-libraries-for-parallel-spatial-computing",
+    "href": "ParallelComputing.html#r-libraries-for-parallel-spatial-computing",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "R Libraries for Parallel Spatial Computing",
+    "text": "R Libraries for Parallel Spatial Computing\nCore Parallel Libraries\n\n\nShow code\n# Core parallel computing\nlibrary(parallel)      # Built-in multicore and cluster computing  \nlibrary(foreach)       # Elegant parallel loops with %dopar%\nlibrary(future)        # Modern asynchronous programming framework\nlibrary(doParallel)    # Parallel backend for foreach\n\n\nSpatial-Specific Packages\n\n\nShow code\n# Spatial packages with parallel support\nlibrary(terra)         # Modern raster processing with built-in parallelization\nlibrary(sf)           # Simple features with parallel-aware operations\nlibrary(stars)        # Spatiotemporal arrays with parallel support  \nlibrary(exactextractr) # Fast raster extractions using parallel processing"
+  },
+  {
+    "objectID": "ParallelComputing.html#r-example-code",
+    "href": "ParallelComputing.html#r-example-code",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "R Example Code",
+    "text": "R Example Code\n\n\nShow code\n# Load library\nlibrary(parallel)\n\n# Detect number of available cores\nnum_cores &lt;- detectCores()\n\n# Function to apply\nsquare_function &lt;- function(x) {\n  Sys.sleep(0.5) # simulate work\n  return(x^2)\n}\n\n# Apply function in parallel\nresult &lt;- mclapply(1:10, square_function, mc.cores = num_cores)\n\nprint(result)\n\n\n\nThis shows a typical workflow: setup parallel backend, use foreach with %dopar%, remember to load required packages in each worker, and clean up resources."
+  },
+  {
+    "objectID": "ParallelComputing.html#python-libraries-for-parallel-spatial-computing",
+    "href": "ParallelComputing.html#python-libraries-for-parallel-spatial-computing",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Python Libraries for Parallel Spatial Computing",
+    "text": "Python Libraries for Parallel Spatial Computing\nCore Parallel Libraries\n\n\nShow code\n# Core parallel computing\nimport multiprocessing          # Built-in process-based parallelism\nfrom concurrent.futures import ProcessPoolExecutor  # High-level parallel execution  \nfrom joblib import Parallel, delayed  # Efficient scientific computing\nimport dask                     # Scalable parallel computing\n\n\nSpatial-Specific Libraries\n\n\nShow code\n# Spatial packages with parallel support\nimport rasterio                 # Raster I/O with dask integration\nimport geopandas as gpd        # Spatial dataframes  \nimport xarray as xr            # N-dimensional arrays with dask\nimport rioxarray as rxr        # Rasterio + xarray integration"
+  },
+  {
+    "objectID": "ParallelComputing.html#python-example-code",
+    "href": "ParallelComputing.html#python-example-code",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Python Example Code",
+    "text": "Python Example Code\n\n\nShow code\nimport multiprocessing as mp\nimport time\n\ndef square_function(x):\n    time.sleep(0.5)  # simulate work\n    return x**2\n\nif __name__ == \"__main__\":\n    # Detect number of available cores\n    num_cores = mp.cpu_count()\n    \n    with mp.Pool(processes=num_cores) as pool:\n        result = pool.map(square_function, range(1, 11))\n    \n    print(result)\n\n\n\nDask provides a pandas-like API but with lazy evaluation and automatic parallelization. The chunks parameter is crucial for memory management."
+  },
+  {
+    "objectID": "ParallelComputing.html#considerations-for-parallel-processing",
+    "href": "ParallelComputing.html#considerations-for-parallel-processing",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Considerations for Parallel Processing",
+    "text": "Considerations for Parallel Processing\n1. Memory Management\n\nMonitor RAM usage per process\nUse chunking strategies for large datasets\n\nImplement garbage collection between iterations\n\n2. Load Balancing\n\nDistribute work evenly across cores\nAccount for varying computational complexity\nUse dynamic scheduling when possible"
+  },
+  {
+    "objectID": "ParallelComputing.html#considerations-continued",
+    "href": "ParallelComputing.html#considerations-continued",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Considerations (continued)",
+    "text": "Considerations (continued)\n3. I/O Optimization\n\nMinimize file system bottlenecks\nPre-load data when possible\nUse efficient file formats (HDF5, Parquet, COG)\n\n4. Error Handling and Debugging\n\nImplement robust error catching\nUse logging to track parallel processes\n\nTest with smaller datasets first"
+  },
+  {
+    "objectID": "ParallelComputing.html#benchmarking-in-r",
+    "href": "ParallelComputing.html#benchmarking-in-r",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Benchmarking in R",
+    "text": "Benchmarking in R\n\n\n\n\nShow code\nlibrary(parallel)\nlibrary(ggplot2)\n\n# Detect cores\nnum_cores &lt;- detectCores()\n\nsquare_function &lt;- function(x) {\n  Sys.sleep(0.5) # simulate work\n  x^2\n}\n\nnumbers &lt;- 1:10\n\n# --- Sequential execution ---\nstart_seq &lt;- Sys.time()\nseq_result &lt;- lapply(numbers, square_function)\nend_seq &lt;- Sys.time()\nseq_time &lt;- as.numeric(difftime(end_seq, start_seq, units = \"secs\"))  # convert to numeric seconds\n\n# --- Parallel execution ---\nstart_par &lt;- Sys.time()\npar_result &lt;- mclapply(numbers, square_function, mc.cores = num_cores)\nend_par &lt;- Sys.time()\npar_time &lt;- as.numeric(difftime(end_par, start_par, units = \"secs\"))  # convert to numeric seconds\n\n# --- Print Results ---\ncat(\"Sequential result:\", unlist(seq_result), \"\\n\")\ncat(\"Parallel result:  \", unlist(par_result), \"\\n\")\ncat(\"Sequential time:\", seq_time, \"seconds\\n\")\ncat(\"Parallel time:  \", par_time, \"seconds\\n\")\ncat(\"Speedup factor: \", round(seq_time / par_time, 2), \"x faster\\n\")\n\n# --- Plot ---\ndf &lt;- data.frame(\n  Method = c(\"Sequential\", \"Parallel\"),\n  Time = c(seq_time, par_time)\n)\n\nggplot(df, aes(x = Method, y = Time, fill = Method)) +\n  geom_bar(stat = \"identity\", width = 0.5) +\n  labs(title = \"Sequential vs Parallel Execution Time\",\n       y = \"Execution Time (seconds)\") +\n  theme_minimal(base_size = 14) +\n  theme(legend.position = \"none\")\n\n\n\nKey Steps:\n\nProfile first\nIdentify bottlenecks\n\nChoose strategy\nImplement gradually\nBenchmark results\n\nRemember:\n\nStart simple\nTest thoroughly\nScale incrementally"
+  },
+  {
+    "objectID": "ParallelComputing.html#benchmarking-in-python",
+    "href": "ParallelComputing.html#benchmarking-in-python",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Benchmarking in Python",
+    "text": "Benchmarking in Python\n\n\nShow code\nimport multiprocessing as mp\nimport time\nimport matplotlib.pyplot as plt\n\ndef square_function(x):\n    time.sleep(0.5)\n    return x**2\n\n  def benchmark_with_cores(numbers, cores):\n    \"\"\"Benchmark using a specific number of cores.\"\"\"\n    start = time.time()\n    with mp.Pool(processes=cores) as pool:\n        _ = pool.map(square_function, numbers)\n    end = time.time()\n    return end - start\n\nif __name__ == \"__main__\":\n    numbers = list(range(1, 11))\n    num_cores = mp.cpu_count()\n\n    # Sequential benchmark\n    start_seq = time.time()\n    seq_result = [square_function(x) for x in numbers]\n    end_seq = time.time()\n    seq_time = end_seq - start_seq\n\n    # Parallel benchmarks\n    cores_to_test = list(range(1, num_cores + 1))\n    times = [benchmark_with_cores(numbers, c) for c in cores_to_test]\n    speedups = [seq_time / t for t in times]\n\n    # Print results\n    print(f\"Sequential time: {seq_time:.2f}s\")\n    for c, t, s in zip(cores_to_test, times, speedups):\n        print(f\"{c} cores -&gt; {t:.2f}s ({s:.2f}x speedup)\")\n\n    # Plot execution time\n    plt.figure(figsize=(6, 4))\n    plt.plot(cores_to_test, times, marker='o', label=\"Execution Time\")\n    plt.title(\"Execution Time vs Number of Cores\")\n    plt.xlabel(\"Number of Cores\")\n    plt.ylabel(\"Execution Time (seconds)\")\n    plt.grid()\n    plt.savefig(\"execution_time_vs_cores.png\")\n    plt.show()\n\n    # Plot speedup curve\n    plt.figure(figsize=(6, 4))\n    plt.plot(cores_to_test, speedups, marker='o', color='green', label=\"Speedup\")\n    plt.plot(cores_to_test, cores_to_test, '--', color='red', label=\"Ideal Speedup\")\n    plt.title(\"Speedup vs Number of Cores\")\n    plt.xlabel(\"Number of Cores\")\n    plt.ylabel(\"Speedup (Relative to Sequential)\")\n    plt.legend()\n    plt.grid()\n    plt.savefig(\"speedup_vs_cores.png\")\n    plt.show()"
+  },
+  {
+    "objectID": "ParallelComputing.html#cloud-and-distributed-options",
+    "href": "ParallelComputing.html#cloud-and-distributed-options",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Cloud and Distributed Options",
+    "text": "Cloud and Distributed Options\nWhen to scale beyond your local machine\n\n\nR Options:\n\nAzure ML: Parallel R on cloud\nAWS Batch: Container-based processing\nGoogle Cloud Run: Serverless R functions\nSlurm clusters: HPC environments\n\nPackages:\n\nclustermq: HPC job scheduling\nbatchtools: Batch job processing\nfuture.batchtools: Future with HPC backends\n\n\nPython Options:\n\nDask Gateway: Managed dask clusters\nRay: Distributed computing framework\nKubernetes: Container orchestration\nSpark: Big data processing\n\nCloud Services:\n\nAWS EMR, Google Dataproc - Azure HDInsight, Databricks - Pangeo cloud deployments"
+  },
+  {
+    "objectID": "ParallelComputing.html#takeaways",
+    "href": "ParallelComputing.html#takeaways",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Takeaways",
+    "text": "Takeaways\n\nParallel computing is powerful but not a silver bullet\nSpatial data characteristics make it especially beneficial\n\nChoose the right tool for your language and problem scale\nAlways profile and test your parallel implementations\nStart simple and scale complexity as needed"
+  },
+  {
+    "objectID": "ParallelComputing.html#resources",
+    "href": "ParallelComputing.html#resources",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Resources",
+    "text": "Resources\n\n“Parallel R” by McCallum & Weston\n“Python Parallel Programming Cookbook” by Zaccone\nDask documentation: dask.org\nFuture package vignettes: future.futureverse.org\n\nOnline Resources\n\nParallel processing in R: CRAN Task View\nGeospatial parallel computing: r-spatial.org\nPangeo community: pangeo.io"
+  },
+  {
+    "objectID": "ParallelComputing.html#questions",
+    "href": "ParallelComputing.html#questions",
+    "title": "Parallel Computing for Spatial Data",
+    "section": "Questions",
+    "text": "Questions\nThank you!"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "BEGIN Fri Cake",
+    "section": "",
+    "text": "Welcome\nThis is the website for my Parallel Computing lectures and notes.\n\nLecture Slides\nGit Intro"
+  },
+  {
+    "objectID": "Git.html#reproducible-research",
+    "href": "Git.html#reproducible-research",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Reproducible Research",
+    "text": "Reproducible Research"
+  },
+  {
+    "objectID": "Git.html#definitions-for-reproducibility",
+    "href": "Git.html#definitions-for-reproducibility",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Definitions for Reproducibility",
+    "text": "Definitions for Reproducibility\n\nhttps://book.the-turing-way.org/reproducible-research/overview/overview-definitions/"
+  },
+  {
+    "objectID": "Git.html#why-is-important-added-advantages",
+    "href": "Git.html#why-is-important-added-advantages",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Why is important?: Added Advantages",
+    "text": "Why is important?: Added Advantages\n\nhttps://book.the-turing-way.org/reproducible-research/overview/overview-benefit/"
+  },
+  {
+    "objectID": "Git.html#barriers-to-reproducibilityreplicability",
+    "href": "Git.html#barriers-to-reproducibilityreplicability",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Barriers to reproducibility/replicability",
+    "text": "Barriers to reproducibility/replicability\n\nTo “plead the fifth” means that someone chooses not to give evidence that there might have been something wrong in their past behavior. They have the right to remain silent."
+  },
+  {
+    "objectID": "Git.html#open-research",
+    "href": "Git.html#open-research",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Open Research",
+    "text": "Open Research\nAims to transform research by making it more reproducible, transparent, reusable, collaborative, accountable, and accessible to society. It pushes for change in the way that research is carried out and disseminated by digital tools. McKiernan et al. (2016) states that open access articles are cited more often"
+  },
+  {
+    "objectID": "Git.html#version-control-git-basics",
+    "href": "Git.html#version-control-git-basics",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Version Control: Git basics",
+    "text": "Version Control: Git basics\n\nA tool that let you track your progress over time.\n\nIt is an open-source software for version control, which means that it tracks changes to your files as you work on them over time.\nSimilar to “track changes” feature in a word document, except you must choose which versions to include in the tracking—it is not automatic.\nIt can be tricky. Widely used in academia and industry."
+  },
+  {
+    "objectID": "Git.html#essentially-git-takes-snapshots",
+    "href": "Git.html#essentially-git-takes-snapshots",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Essentially, Git takes snapshots",
+    "text": "Essentially, Git takes snapshots\nSave snapshots to your history to retrace your steps.\nAlso keeps others up-to-date with your latest work."
+  },
+  {
+    "objectID": "Git.html#but-why",
+    "href": "Git.html#but-why",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "But why?",
+    "text": "But why?\nCentralized systems require coordination…"
+  },
+  {
+    "objectID": "Git.html#order-with-coordination",
+    "href": "Git.html#order-with-coordination",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Order with coordination:",
+    "text": "Order with coordination:\n\nIn a centralized system, you can objectively call versions a numerical progression: version 1, version 2, version 3…\nSince John made a new version before Vanessa, his is n+1, and Vanessa is n+2."
+  },
+  {
+    "objectID": "Git.html#working-in-parallel-order-without-coordination",
+    "href": "Git.html#working-in-parallel-order-without-coordination",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Working in parallel: Order without coordination",
+    "text": "Working in parallel: Order without coordination\nGit goes after this idea of distributed version control, so you can keep track of your versions without coordination."
+  },
+  {
+    "objectID": "Git.html#a-repository-holds-the-entire-history-of-your-project",
+    "href": "Git.html#a-repository-holds-the-entire-history-of-your-project",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "A repository holds the entire history of your project",
+    "text": "A repository holds the entire history of your project\n\nA repository is the unit of separation between projects in Git.\nEach project, library or discrete piece of software should have it’s own repository."
+  },
+  {
+    "objectID": "Git.html#create-a-repository",
+    "href": "Git.html#create-a-repository",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Create a repository",
+    "text": "Create a repository\ncd desktop\ngit init exercise-1  \ncd exercise-1\nls -la"
+  },
+  {
+    "objectID": "Git.html#in-another-way",
+    "href": "Git.html#in-another-way",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "In another way",
+    "text": "In another way"
+  },
+  {
+    "objectID": "Git.html#use-the-staging-area-to-build-a-commit",
+    "href": "Git.html#use-the-staging-area-to-build-a-commit",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Use the staging area to build a commit",
+    "text": "Use the staging area to build a commit"
+  },
+  {
+    "objectID": "Git.html#terminology",
+    "href": "Git.html#terminology",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Terminology",
+    "text": "Terminology\n\nRepository: Is a project (a folder) containing files and sub-folders. A repository tracks versions of files and folders.\nBranch: A branch is a parallel version of your repository. By default, your repository has one branch named main and is considered the definitive branch. You can use branches to have different project versions at once.\nClone: Local copy of a repository stored on the cloud. Clones can be synced up with their originals in the GitHub repository.\nCommit: A commit is a set of changes to the files and folders in your project. A commit exists in a branch."
+  },
+  {
+    "objectID": "Git.html#terminology---2",
+    "href": "Git.html#terminology---2",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Terminology - 2",
+    "text": "Terminology - 2\n\nFork: “Forking” is when you copy another user’s repository to your account. You can make any changes to your forked copy, leaving the original unaffected. \nPull/push: Merging changes made to the repository files into the local copy you’re working on is called “pulling.” A “push” is the reverse — updating the repository files with changes you’ve made to your local copy.\nPull request: Collaboration happens on a pull request. The pull request shows the changes in your branch to other people. This pull request will keep the changes you just made on your branch and propose applying them to the main branch.\nMerge: A merge adds the changes in your pull request and branch into the main branch"
+  },
+  {
+    "objectID": "Git.html#more-resources",
+    "href": "Git.html#more-resources",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "More resources",
+    "text": "More resources\nReproducibility\n\nMarkowetz, F. (2018). 5 selfish reasons to work reproducibly. Slides available at https://osf.io/a8wq4/. Recording from a talk at Data Stewardship TU Delft in 2019. https://youtu.be/yVT07Sukv9Q.\nLeipzig, J (2020). Awesome Reproducible Research: A curated list of reproducible research case studies, projects, tutorials, and media. Github repo. https://github.com/leipzig/awesome-reproducible-research\n\nData Science\n\nData science: A guide for society. Ask for Evidence. (2019). Retrieved October 26, 2021, from https://askforevidence.org/articles/data-science-a-guide-for-society.\nRiley, E. (2019). Data Science Guide for Society. London; senseaboutscience.org.\nThe Open Data Institute. (2019). Knowledge & opinion. The ODI. Retrieved October 26, 2021, from https://theodi.org/article/data-ethics-canvas."
+  },
+  {
+    "objectID": "Git.html#questions",
+    "href": "Git.html#questions",
+    "title": "Git, GitHub, Reproducible Science",
+    "section": "Questions",
+    "text": "Questions\nThank you!"
+  }
+]
