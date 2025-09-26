@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="ParallelComputing_files/libs/clipboard/clipboard.min.js"></script>
-<script src="ParallelComputing_files/libs/quarto-html/tabby.min.js"></script>
-<script src="ParallelComputing_files/libs/quarto-html/popper.min.js"></script>
-<script src="ParallelComputing_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="ParallelComputing_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="ParallelComputing_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="ParallelComputing_files/libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/tabby.min.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.32">
 
   <meta name="author" content="Fernando Benitez">
@@ -15,8 +15,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="ParallelComputing_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="ParallelComputing_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -96,13 +96,13 @@
     code span.vs { color: #032f62; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="ParallelComputing_files/libs/revealjs/dist/theme/quarto-f563837468303362081e247dddd440d0.css">
-  <link href="ParallelComputing_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="ParallelComputing_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="ParallelComputing_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="ParallelComputing_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
-  <link href="ParallelComputing_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
-  <link href="ParallelComputing_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-f563837468303362081e247dddd440d0.css">
+  <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
       margin: 0;
@@ -316,14 +316,14 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="|1-5|7-11|13-17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Traditional for loop in R</span></span>
-<span id="cb1-2"><a href=""></a>results <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">1000</span>)</span>
-<span id="cb1-3"><a href=""></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
-<span id="cb1-4"><a href=""></a>  results[i] <span class="ot">&lt;-</span> <span class="fu">expensive_calculation</span>(i)</span>
-<span id="cb1-5"><a href=""></a>}</span>
-<span id="cb1-6"><a href=""></a></span>
-<span id="cb1-7"><a href=""></a><span class="co"># Sequential function calls</span></span>
-<span id="cb1-8"><a href=""></a>file1_result <span class="ot">&lt;-</span> <span class="fu">process_raster</span>(<span class="st">"file1.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="|1-5|7-11|13-17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Traditional for loop in R</span></span>
+<span id="cb1-2"><a></a>results <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">1000</span>)</span>
+<span id="cb1-3"><a></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
+<span id="cb1-4"><a></a>  results[i] <span class="ot">&lt;-</span> <span class="fu">expensive_calculation</span>(i)</span>
+<span id="cb1-5"><a></a>}</span>
+<span id="cb1-6"><a></a></span>
+<span id="cb1-7"><a></a><span class="co"># Sequential function calls</span></span>
+<span id="cb1-8"><a></a>file1_result <span class="ot">&lt;-</span> <span class="fu">process_raster</span>(<span class="st">"file1.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div><div class="column" style="width:50%;">
@@ -331,15 +331,15 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="co"># Traditional for loop in Python</span></span>
-<span id="cb2-2"><a href=""></a>results <span class="op">=</span> []</span>
-<span id="cb2-3"><a href=""></a><span class="cf">for</span> filename <span class="kw">in</span> file_list:</span>
-<span id="cb2-4"><a href=""></a>    data <span class="op">=</span> load_raster(filename)</span>
-<span id="cb2-5"><a href=""></a>    processed <span class="op">=</span> apply_filter(data)</span>
-<span id="cb2-6"><a href=""></a>    results.append(processed)</span>
-<span id="cb2-7"><a href=""></a></span>
-<span id="cb2-8"><a href=""></a><span class="co"># List comprehension still sequential!</span></span>
-<span id="cb2-9"><a href=""></a>results <span class="op">=</span> [process_file(f) <span class="cf">for</span> f <span class="kw">in</span> files]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="co"># Traditional for loop in Python</span></span>
+<span id="cb2-2"><a></a>results <span class="op">=</span> []</span>
+<span id="cb2-3"><a></a><span class="cf">for</span> filename <span class="kw">in</span> file_list:</span>
+<span id="cb2-4"><a></a>    data <span class="op">=</span> load_raster(filename)</span>
+<span id="cb2-5"><a></a>    processed <span class="op">=</span> apply_filter(data)</span>
+<span id="cb2-6"><a></a>    results.append(processed)</span>
+<span id="cb2-7"><a></a></span>
+<span id="cb2-8"><a></a><span class="co"># List comprehension still sequential!</span></span>
+<span id="cb2-9"><a></a>results <span class="op">=</span> [process_file(f) <span class="cf">for</span> f <span class="kw">in</span> files]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div></div>
@@ -357,15 +357,15 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># Imagine: Processing 4 large raster files</span></span>
-<span id="cb3-2"><a href=""></a><span class="co"># Each file takes approx 10 minutes to process on a 4-core machine</span></span>
-<span id="cb3-3"><a href=""></a></span>
-<span id="cb3-4"><a href=""></a><span class="co"># Sequential processing timeline:</span></span>
-<span id="cb3-5"><a href=""></a><span class="co"># Core 1: [File1: 10min] -&gt; [File2: 10min] -&gt; [File3: 10min] -&gt; [File4: 10min]</span></span>
-<span id="cb3-6"><a href=""></a><span class="co"># Core 2: [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ]</span></span>
-<span id="cb3-7"><a href=""></a><span class="co"># Core 3: [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ]  </span></span>
-<span id="cb3-8"><a href=""></a><span class="co"># Core 4: [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ]</span></span>
-<span id="cb3-9"><a href=""></a><span class="co"># Total Time: 40 minutes, 75% of CPU capacity wasted!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="co"># Imagine: Processing 4 large raster files</span></span>
+<span id="cb3-2"><a></a><span class="co"># Each file takes approx 10 minutes to process on a 4-core machine</span></span>
+<span id="cb3-3"><a></a></span>
+<span id="cb3-4"><a></a><span class="co"># Sequential processing timeline:</span></span>
+<span id="cb3-5"><a></a><span class="co"># Core 1: [File1: 10min] -&gt; [File2: 10min] -&gt; [File3: 10min] -&gt; [File4: 10min]</span></span>
+<span id="cb3-6"><a></a><span class="co"># Core 2: [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ]</span></span>
+<span id="cb3-7"><a></a><span class="co"># Core 3: [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ]  </span></span>
+<span id="cb3-8"><a></a><span class="co"># Core 4: [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ] -&gt; [  IDLE   ]</span></span>
+<span id="cb3-9"><a></a><span class="co"># Total Time: 40 minutes, 75% of CPU capacity wasted!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="callout callout-important callout-titled callout-style-default">
@@ -392,18 +392,18 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># **Processing 1000 satellite images**</span></span>
-<span id="cb4-2"><a href=""></a><span class="co"># Sequential: 1000 × 2 minutes = 33 hours</span></span>
-<span id="cb4-3"><a href=""></a><span class="co"># Parallel (8 cores): ~4 hours</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="co"># **Processing 1000 satellite images**</span></span>
+<span id="cb4-2"><a></a><span class="co"># Sequential: 1000 × 2 minutes = 33 hours</span></span>
+<span id="cb4-3"><a></a><span class="co"># Parallel (8 cores): ~4 hours</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <h3 id="memory-limitations">Memory Limitations</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># Large dataset that doesn't fit in RAM (Imitated)</span></span>
-<span id="cb5-2"><a href=""></a><span class="co"># Sequential: Process in small chunks, when is possible (python)</span></span>
-<span id="cb5-3"><a href=""></a><span class="co"># Parallel: Process multiple chunks simultaneously (no cores)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="co"># Large dataset that doesn't fit in RAM (Imitated)</span></span>
+<span id="cb5-2"><a></a><span class="co"># Sequential: Process in small chunks, when is possible (python)</span></span>
+<span id="cb5-3"><a></a><span class="co"># Parallel: Process multiple chunks simultaneously (no cores)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div><div class="column" style="width:50%;">
@@ -446,13 +446,13 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="co"># Same 4 files, now processed in parallel:</span></span>
-<span id="cb6-2"><a href=""></a><span class="co"># Core 1: [File1: 10min] -&gt; [DONE]</span></span>
-<span id="cb6-3"><a href=""></a><span class="co"># Core 2: [File2: 10min] -&gt; [DONE]  </span></span>
-<span id="cb6-4"><a href=""></a><span class="co"># Core 3: [File3: 10min] -&gt; [DONE]</span></span>
-<span id="cb6-5"><a href=""></a><span class="co"># Core 4: [File4: 10min] -&gt; [DONE]</span></span>
-<span id="cb6-6"><a href=""></a><span class="co"># Total Time: 10 minutes!</span></span>
-<span id="cb6-7"><a href=""></a><span class="co"># 4x speedup achieved</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="co"># Same 4 files, now processed in parallel:</span></span>
+<span id="cb6-2"><a></a><span class="co"># Core 1: [File1: 10min] -&gt; [DONE]</span></span>
+<span id="cb6-3"><a></a><span class="co"># Core 2: [File2: 10min] -&gt; [DONE]  </span></span>
+<span id="cb6-4"><a></a><span class="co"># Core 3: [File3: 10min] -&gt; [DONE]</span></span>
+<span id="cb6-5"><a></a><span class="co"># Core 4: [File4: 10min] -&gt; [DONE]</span></span>
+<span id="cb6-6"><a></a><span class="co"># Total Time: 10 minutes!</span></span>
+<span id="cb6-7"><a></a><span class="co"># 4x speedup achieved</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <h3 id="when-it-makes-sense">When it makes sense?</h3>
@@ -563,22 +563,22 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co"># Core parallel computing</span></span>
-<span id="cb7-2"><a href=""></a><span class="fu">library</span>(parallel)      <span class="co"># Built-in multicore and cluster computing  </span></span>
-<span id="cb7-3"><a href=""></a><span class="fu">library</span>(foreach)       <span class="co"># Elegant parallel loops with %dopar%</span></span>
-<span id="cb7-4"><a href=""></a><span class="fu">library</span>(future)        <span class="co"># Modern asynchronous programming framework</span></span>
-<span id="cb7-5"><a href=""></a><span class="fu">library</span>(doParallel)    <span class="co"># Parallel backend for foreach</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="co"># Core parallel computing</span></span>
+<span id="cb7-2"><a></a><span class="fu">library</span>(parallel)      <span class="co"># Built-in multicore and cluster computing  </span></span>
+<span id="cb7-3"><a></a><span class="fu">library</span>(foreach)       <span class="co"># Elegant parallel loops with %dopar%</span></span>
+<span id="cb7-4"><a></a><span class="fu">library</span>(future)        <span class="co"># Modern asynchronous programming framework</span></span>
+<span id="cb7-5"><a></a><span class="fu">library</span>(doParallel)    <span class="co"># Parallel backend for foreach</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <h3 class="smaller" id="spatial-specific-packages">Spatial-Specific Packages</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="co"># Spatial packages with parallel support</span></span>
-<span id="cb8-2"><a href=""></a><span class="fu">library</span>(terra)         <span class="co"># Modern raster processing with built-in parallelization</span></span>
-<span id="cb8-3"><a href=""></a><span class="fu">library</span>(sf)           <span class="co"># Simple features with parallel-aware operations</span></span>
-<span id="cb8-4"><a href=""></a><span class="fu">library</span>(stars)        <span class="co"># Spatiotemporal arrays with parallel support  </span></span>
-<span id="cb8-5"><a href=""></a><span class="fu">library</span>(exactextractr) <span class="co"># Fast raster extractions using parallel processing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="co"># Spatial packages with parallel support</span></span>
+<span id="cb8-2"><a></a><span class="fu">library</span>(terra)         <span class="co"># Modern raster processing with built-in parallelization</span></span>
+<span id="cb8-3"><a></a><span class="fu">library</span>(sf)           <span class="co"># Simple features with parallel-aware operations</span></span>
+<span id="cb8-4"><a></a><span class="fu">library</span>(stars)        <span class="co"># Spatiotemporal arrays with parallel support  </span></span>
+<span id="cb8-5"><a></a><span class="fu">library</span>(exactextractr) <span class="co"># Fast raster extractions using parallel processing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -587,22 +587,22 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="|1-3|4-6|7-10|12-14|15-16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="co"># Load library</span></span>
-<span id="cb9-2"><a href=""></a><span class="fu">library</span>(parallel)</span>
-<span id="cb9-3"><a href=""></a></span>
-<span id="cb9-4"><a href=""></a><span class="co"># Detect number of available cores</span></span>
-<span id="cb9-5"><a href=""></a>num_cores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
-<span id="cb9-6"><a href=""></a></span>
-<span id="cb9-7"><a href=""></a><span class="co"># Function to apply</span></span>
-<span id="cb9-8"><a href=""></a>square_function <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb9-9"><a href=""></a>  <span class="fu">Sys.sleep</span>(<span class="fl">0.5</span>) <span class="co"># simulate work</span></span>
-<span id="cb9-10"><a href=""></a>  <span class="fu">return</span>(x<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb9-11"><a href=""></a>}</span>
-<span id="cb9-12"><a href=""></a></span>
-<span id="cb9-13"><a href=""></a><span class="co"># Apply function in parallel</span></span>
-<span id="cb9-14"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, square_function, <span class="at">mc.cores =</span> num_cores)</span>
-<span id="cb9-15"><a href=""></a></span>
-<span id="cb9-16"><a href=""></a><span class="fu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="|1-3|4-6|7-10|12-14|15-16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="co"># Load library</span></span>
+<span id="cb9-2"><a></a><span class="fu">library</span>(parallel)</span>
+<span id="cb9-3"><a></a></span>
+<span id="cb9-4"><a></a><span class="co"># Detect number of available cores</span></span>
+<span id="cb9-5"><a></a>num_cores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
+<span id="cb9-6"><a></a></span>
+<span id="cb9-7"><a></a><span class="co"># Function to apply</span></span>
+<span id="cb9-8"><a></a>square_function <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb9-9"><a></a>  <span class="fu">Sys.sleep</span>(<span class="fl">0.5</span>) <span class="co"># simulate work</span></span>
+<span id="cb9-10"><a></a>  <span class="fu">return</span>(x<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb9-11"><a></a>}</span>
+<span id="cb9-12"><a></a></span>
+<span id="cb9-13"><a></a><span class="co"># Apply function in parallel</span></span>
+<span id="cb9-14"><a></a>result <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, square_function, <span class="at">mc.cores =</span> num_cores)</span>
+<span id="cb9-15"><a></a></span>
+<span id="cb9-16"><a></a><span class="fu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <aside class="notes">
@@ -625,22 +625,22 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="co"># Core parallel computing</span></span>
-<span id="cb10-2"><a href=""></a><span class="im">import</span> multiprocessing          <span class="co"># Built-in process-based parallelism</span></span>
-<span id="cb10-3"><a href=""></a><span class="im">from</span> concurrent.futures <span class="im">import</span> ProcessPoolExecutor  <span class="co"># High-level parallel execution  </span></span>
-<span id="cb10-4"><a href=""></a><span class="im">from</span> joblib <span class="im">import</span> Parallel, delayed  <span class="co"># Efficient scientific computing</span></span>
-<span id="cb10-5"><a href=""></a><span class="im">import</span> dask                     <span class="co"># Scalable parallel computing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="co"># Core parallel computing</span></span>
+<span id="cb10-2"><a></a><span class="im">import</span> multiprocessing          <span class="co"># Built-in process-based parallelism</span></span>
+<span id="cb10-3"><a></a><span class="im">from</span> concurrent.futures <span class="im">import</span> ProcessPoolExecutor  <span class="co"># High-level parallel execution  </span></span>
+<span id="cb10-4"><a></a><span class="im">from</span> joblib <span class="im">import</span> Parallel, delayed  <span class="co"># Efficient scientific computing</span></span>
+<span id="cb10-5"><a></a><span class="im">import</span> dask                     <span class="co"># Scalable parallel computing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <h3 class="smaller" id="spatial-specific-libraries">Spatial-Specific Libraries</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a><span class="co"># Spatial packages with parallel support</span></span>
-<span id="cb11-2"><a href=""></a><span class="im">import</span> rasterio                 <span class="co"># Raster I/O with dask integration</span></span>
-<span id="cb11-3"><a href=""></a><span class="im">import</span> geopandas <span class="im">as</span> gpd        <span class="co"># Spatial dataframes  </span></span>
-<span id="cb11-4"><a href=""></a><span class="im">import</span> xarray <span class="im">as</span> xr            <span class="co"># N-dimensional arrays with dask</span></span>
-<span id="cb11-5"><a href=""></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr        <span class="co"># Rasterio + xarray integration</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="co"># Spatial packages with parallel support</span></span>
+<span id="cb11-2"><a></a><span class="im">import</span> rasterio                 <span class="co"># Raster I/O with dask integration</span></span>
+<span id="cb11-3"><a></a><span class="im">import</span> geopandas <span class="im">as</span> gpd        <span class="co"># Spatial dataframes  </span></span>
+<span id="cb11-4"><a></a><span class="im">import</span> xarray <span class="im">as</span> xr            <span class="co"># N-dimensional arrays with dask</span></span>
+<span id="cb11-5"><a></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr        <span class="co"># Rasterio + xarray integration</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -649,21 +649,21 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb12" data-code-line-numbers="|1-4|5-7|8-11|12-16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a><span class="im">import</span> multiprocessing <span class="im">as</span> mp</span>
-<span id="cb12-2"><a href=""></a><span class="im">import</span> time</span>
-<span id="cb12-3"><a href=""></a></span>
-<span id="cb12-4"><a href=""></a><span class="kw">def</span> square_function(x):</span>
-<span id="cb12-5"><a href=""></a>    time.sleep(<span class="fl">0.5</span>)  <span class="co"># simulate work</span></span>
-<span id="cb12-6"><a href=""></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb12-7"><a href=""></a></span>
-<span id="cb12-8"><a href=""></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb12-9"><a href=""></a>    <span class="co"># Detect number of available cores</span></span>
-<span id="cb12-10"><a href=""></a>    num_cores <span class="op">=</span> mp.cpu_count()</span>
-<span id="cb12-11"><a href=""></a>    </span>
-<span id="cb12-12"><a href=""></a>    <span class="cf">with</span> mp.Pool(processes<span class="op">=</span>num_cores) <span class="im">as</span> pool:</span>
-<span id="cb12-13"><a href=""></a>        result <span class="op">=</span> pool.<span class="bu">map</span>(square_function, <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>))</span>
-<span id="cb12-14"><a href=""></a>    </span>
-<span id="cb12-15"><a href=""></a>    <span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12" data-code-line-numbers="|1-4|5-7|8-11|12-16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="im">import</span> multiprocessing <span class="im">as</span> mp</span>
+<span id="cb12-2"><a></a><span class="im">import</span> time</span>
+<span id="cb12-3"><a></a></span>
+<span id="cb12-4"><a></a><span class="kw">def</span> square_function(x):</span>
+<span id="cb12-5"><a></a>    time.sleep(<span class="fl">0.5</span>)  <span class="co"># simulate work</span></span>
+<span id="cb12-6"><a></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb12-7"><a></a></span>
+<span id="cb12-8"><a></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb12-9"><a></a>    <span class="co"># Detect number of available cores</span></span>
+<span id="cb12-10"><a></a>    num_cores <span class="op">=</span> mp.cpu_count()</span>
+<span id="cb12-11"><a></a>    </span>
+<span id="cb12-12"><a></a>    <span class="cf">with</span> mp.Pool(processes<span class="op">=</span>num_cores) <span class="im">as</span> pool:</span>
+<span id="cb12-13"><a></a>        result <span class="op">=</span> pool.<span class="bu">map</span>(square_function, <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>))</span>
+<span id="cb12-14"><a></a>    </span>
+<span id="cb12-15"><a></a>    <span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <aside class="notes">
@@ -719,50 +719,50 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb13" data-code-line-numbers="|1-5|7-12|14-18|20-24|26-31|33-44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">library</span>(parallel)</span>
-<span id="cb13-2"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb13-3"><a href=""></a></span>
-<span id="cb13-4"><a href=""></a><span class="co"># Detect cores</span></span>
-<span id="cb13-5"><a href=""></a>num_cores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
-<span id="cb13-6"><a href=""></a></span>
-<span id="cb13-7"><a href=""></a>square_function <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb13-8"><a href=""></a>  <span class="fu">Sys.sleep</span>(<span class="fl">0.5</span>) <span class="co"># simulate work</span></span>
-<span id="cb13-9"><a href=""></a>  x<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb13-10"><a href=""></a>}</span>
-<span id="cb13-11"><a href=""></a></span>
-<span id="cb13-12"><a href=""></a>numbers <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb13-13"><a href=""></a></span>
-<span id="cb13-14"><a href=""></a><span class="co"># --- Sequential execution ---</span></span>
-<span id="cb13-15"><a href=""></a>start_seq <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb13-16"><a href=""></a>seq_result <span class="ot">&lt;-</span> <span class="fu">lapply</span>(numbers, square_function)</span>
-<span id="cb13-17"><a href=""></a>end_seq <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb13-18"><a href=""></a>seq_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(end_seq, start_seq, <span class="at">units =</span> <span class="st">"secs"</span>))  <span class="co"># convert to numeric seconds</span></span>
-<span id="cb13-19"><a href=""></a></span>
-<span id="cb13-20"><a href=""></a><span class="co"># --- Parallel execution ---</span></span>
-<span id="cb13-21"><a href=""></a>start_par <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb13-22"><a href=""></a>par_result <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(numbers, square_function, <span class="at">mc.cores =</span> num_cores)</span>
-<span id="cb13-23"><a href=""></a>end_par <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb13-24"><a href=""></a>par_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(end_par, start_par, <span class="at">units =</span> <span class="st">"secs"</span>))  <span class="co"># convert to numeric seconds</span></span>
-<span id="cb13-25"><a href=""></a></span>
-<span id="cb13-26"><a href=""></a><span class="co"># --- Print Results ---</span></span>
-<span id="cb13-27"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sequential result:"</span>, <span class="fu">unlist</span>(seq_result), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb13-28"><a href=""></a><span class="fu">cat</span>(<span class="st">"Parallel result:  "</span>, <span class="fu">unlist</span>(par_result), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb13-29"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sequential time:"</span>, seq_time, <span class="st">"seconds</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb13-30"><a href=""></a><span class="fu">cat</span>(<span class="st">"Parallel time:  "</span>, par_time, <span class="st">"seconds</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb13-31"><a href=""></a><span class="fu">cat</span>(<span class="st">"Speedup factor: "</span>, <span class="fu">round</span>(seq_time <span class="sc">/</span> par_time, <span class="dv">2</span>), <span class="st">"x faster</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb13-32"><a href=""></a></span>
-<span id="cb13-33"><a href=""></a><span class="co"># --- Plot ---</span></span>
-<span id="cb13-34"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb13-35"><a href=""></a>  <span class="at">Method =</span> <span class="fu">c</span>(<span class="st">"Sequential"</span>, <span class="st">"Parallel"</span>),</span>
-<span id="cb13-36"><a href=""></a>  <span class="at">Time =</span> <span class="fu">c</span>(seq_time, par_time)</span>
-<span id="cb13-37"><a href=""></a>)</span>
-<span id="cb13-38"><a href=""></a></span>
-<span id="cb13-39"><a href=""></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Method, <span class="at">y =</span> Time, <span class="at">fill =</span> Method)) <span class="sc">+</span></span>
-<span id="cb13-40"><a href=""></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb13-41"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sequential vs Parallel Execution Time"</span>,</span>
-<span id="cb13-42"><a href=""></a>       <span class="at">y =</span> <span class="st">"Execution Time (seconds)"</span>) <span class="sc">+</span></span>
-<span id="cb13-43"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
-<span id="cb13-44"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13" data-code-line-numbers="|1-5|7-12|14-18|20-24|26-31|33-44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">library</span>(parallel)</span>
+<span id="cb13-2"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-3"><a></a></span>
+<span id="cb13-4"><a></a><span class="co"># Detect cores</span></span>
+<span id="cb13-5"><a></a>num_cores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
+<span id="cb13-6"><a></a></span>
+<span id="cb13-7"><a></a>square_function <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb13-8"><a></a>  <span class="fu">Sys.sleep</span>(<span class="fl">0.5</span>) <span class="co"># simulate work</span></span>
+<span id="cb13-9"><a></a>  x<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb13-10"><a></a>}</span>
+<span id="cb13-11"><a></a></span>
+<span id="cb13-12"><a></a>numbers <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb13-13"><a></a></span>
+<span id="cb13-14"><a></a><span class="co"># --- Sequential execution ---</span></span>
+<span id="cb13-15"><a></a>start_seq <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-16"><a></a>seq_result <span class="ot">&lt;-</span> <span class="fu">lapply</span>(numbers, square_function)</span>
+<span id="cb13-17"><a></a>end_seq <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-18"><a></a>seq_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(end_seq, start_seq, <span class="at">units =</span> <span class="st">"secs"</span>))  <span class="co"># convert to numeric seconds</span></span>
+<span id="cb13-19"><a></a></span>
+<span id="cb13-20"><a></a><span class="co"># --- Parallel execution ---</span></span>
+<span id="cb13-21"><a></a>start_par <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-22"><a></a>par_result <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(numbers, square_function, <span class="at">mc.cores =</span> num_cores)</span>
+<span id="cb13-23"><a></a>end_par <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb13-24"><a></a>par_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(end_par, start_par, <span class="at">units =</span> <span class="st">"secs"</span>))  <span class="co"># convert to numeric seconds</span></span>
+<span id="cb13-25"><a></a></span>
+<span id="cb13-26"><a></a><span class="co"># --- Print Results ---</span></span>
+<span id="cb13-27"><a></a><span class="fu">cat</span>(<span class="st">"Sequential result:"</span>, <span class="fu">unlist</span>(seq_result), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-28"><a></a><span class="fu">cat</span>(<span class="st">"Parallel result:  "</span>, <span class="fu">unlist</span>(par_result), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-29"><a></a><span class="fu">cat</span>(<span class="st">"Sequential time:"</span>, seq_time, <span class="st">"seconds</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-30"><a></a><span class="fu">cat</span>(<span class="st">"Parallel time:  "</span>, par_time, <span class="st">"seconds</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-31"><a></a><span class="fu">cat</span>(<span class="st">"Speedup factor: "</span>, <span class="fu">round</span>(seq_time <span class="sc">/</span> par_time, <span class="dv">2</span>), <span class="st">"x faster</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-32"><a></a></span>
+<span id="cb13-33"><a></a><span class="co"># --- Plot ---</span></span>
+<span id="cb13-34"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-35"><a></a>  <span class="at">Method =</span> <span class="fu">c</span>(<span class="st">"Sequential"</span>, <span class="st">"Parallel"</span>),</span>
+<span id="cb13-36"><a></a>  <span class="at">Time =</span> <span class="fu">c</span>(seq_time, par_time)</span>
+<span id="cb13-37"><a></a>)</span>
+<span id="cb13-38"><a></a></span>
+<span id="cb13-39"><a></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Method, <span class="at">y =</span> Time, <span class="at">fill =</span> Method)) <span class="sc">+</span></span>
+<span id="cb13-40"><a></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-41"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sequential vs Parallel Execution Time"</span>,</span>
+<span id="cb13-42"><a></a>       <span class="at">y =</span> <span class="st">"Execution Time (seconds)"</span>) <span class="sc">+</span></span>
+<span id="cb13-43"><a></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb13-44"><a></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div><div class="column" style="width:40%;">
@@ -796,63 +796,63 @@ Fernando Benitez
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb14" data-code-line-numbers="|1-3|5-8|9-16|17-25|27-30|32-35|37-57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a><span class="im">import</span> multiprocessing <span class="im">as</span> mp</span>
-<span id="cb14-2"><a href=""></a><span class="im">import</span> time</span>
-<span id="cb14-3"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb14-4"><a href=""></a></span>
-<span id="cb14-5"><a href=""></a><span class="kw">def</span> square_function(x):</span>
-<span id="cb14-6"><a href=""></a>    time.sleep(<span class="fl">0.5</span>)</span>
-<span id="cb14-7"><a href=""></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb14-8"><a href=""></a></span>
-<span id="cb14-9"><a href=""></a>  <span class="kw">def</span> benchmark_with_cores(numbers, cores):</span>
-<span id="cb14-10"><a href=""></a>    <span class="co">"""Benchmark using a specific number of cores."""</span></span>
-<span id="cb14-11"><a href=""></a>    start <span class="op">=</span> time.time()</span>
-<span id="cb14-12"><a href=""></a>    <span class="cf">with</span> mp.Pool(processes<span class="op">=</span>cores) <span class="im">as</span> pool:</span>
-<span id="cb14-13"><a href=""></a>        _ <span class="op">=</span> pool.<span class="bu">map</span>(square_function, numbers)</span>
-<span id="cb14-14"><a href=""></a>    end <span class="op">=</span> time.time()</span>
-<span id="cb14-15"><a href=""></a>    <span class="cf">return</span> end <span class="op">-</span> start</span>
-<span id="cb14-16"><a href=""></a></span>
-<span id="cb14-17"><a href=""></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb14-18"><a href=""></a>    numbers <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>))</span>
-<span id="cb14-19"><a href=""></a>    num_cores <span class="op">=</span> mp.cpu_count()</span>
-<span id="cb14-20"><a href=""></a></span>
-<span id="cb14-21"><a href=""></a>    <span class="co"># Sequential benchmark</span></span>
-<span id="cb14-22"><a href=""></a>    start_seq <span class="op">=</span> time.time()</span>
-<span id="cb14-23"><a href=""></a>    seq_result <span class="op">=</span> [square_function(x) <span class="cf">for</span> x <span class="kw">in</span> numbers]</span>
-<span id="cb14-24"><a href=""></a>    end_seq <span class="op">=</span> time.time()</span>
-<span id="cb14-25"><a href=""></a>    seq_time <span class="op">=</span> end_seq <span class="op">-</span> start_seq</span>
-<span id="cb14-26"><a href=""></a></span>
-<span id="cb14-27"><a href=""></a>    <span class="co"># Parallel benchmarks</span></span>
-<span id="cb14-28"><a href=""></a>    cores_to_test <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, num_cores <span class="op">+</span> <span class="dv">1</span>))</span>
-<span id="cb14-29"><a href=""></a>    times <span class="op">=</span> [benchmark_with_cores(numbers, c) <span class="cf">for</span> c <span class="kw">in</span> cores_to_test]</span>
-<span id="cb14-30"><a href=""></a>    speedups <span class="op">=</span> [seq_time <span class="op">/</span> t <span class="cf">for</span> t <span class="kw">in</span> times]</span>
-<span id="cb14-31"><a href=""></a></span>
-<span id="cb14-32"><a href=""></a>    <span class="co"># Print results</span></span>
-<span id="cb14-33"><a href=""></a>    <span class="bu">print</span>(<span class="ss">f"Sequential time: </span><span class="sc">{</span>seq_time<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
-<span id="cb14-34"><a href=""></a>    <span class="cf">for</span> c, t, s <span class="kw">in</span> <span class="bu">zip</span>(cores_to_test, times, speedups):</span>
-<span id="cb14-35"><a href=""></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>c<span class="sc">}</span><span class="ss"> cores -&gt; </span><span class="sc">{</span>t<span class="sc">:.2f}</span><span class="ss">s (</span><span class="sc">{</span>s<span class="sc">:.2f}</span><span class="ss">x speedup)"</span>)</span>
-<span id="cb14-36"><a href=""></a></span>
-<span id="cb14-37"><a href=""></a>    <span class="co"># Plot execution time</span></span>
-<span id="cb14-38"><a href=""></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
-<span id="cb14-39"><a href=""></a>    plt.plot(cores_to_test, times, marker<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="st">"Execution Time"</span>)</span>
-<span id="cb14-40"><a href=""></a>    plt.title(<span class="st">"Execution Time vs Number of Cores"</span>)</span>
-<span id="cb14-41"><a href=""></a>    plt.xlabel(<span class="st">"Number of Cores"</span>)</span>
-<span id="cb14-42"><a href=""></a>    plt.ylabel(<span class="st">"Execution Time (seconds)"</span>)</span>
-<span id="cb14-43"><a href=""></a>    plt.grid()</span>
-<span id="cb14-44"><a href=""></a>    plt.savefig(<span class="st">"execution_time_vs_cores.png"</span>)</span>
-<span id="cb14-45"><a href=""></a>    plt.show()</span>
-<span id="cb14-46"><a href=""></a></span>
-<span id="cb14-47"><a href=""></a>    <span class="co"># Plot speedup curve</span></span>
-<span id="cb14-48"><a href=""></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
-<span id="cb14-49"><a href=""></a>    plt.plot(cores_to_test, speedups, marker<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span><span class="st">'green'</span>, label<span class="op">=</span><span class="st">"Speedup"</span>)</span>
-<span id="cb14-50"><a href=""></a>    plt.plot(cores_to_test, cores_to_test, <span class="st">'--'</span>, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">"Ideal Speedup"</span>)</span>
-<span id="cb14-51"><a href=""></a>    plt.title(<span class="st">"Speedup vs Number of Cores"</span>)</span>
-<span id="cb14-52"><a href=""></a>    plt.xlabel(<span class="st">"Number of Cores"</span>)</span>
-<span id="cb14-53"><a href=""></a>    plt.ylabel(<span class="st">"Speedup (Relative to Sequential)"</span>)</span>
-<span id="cb14-54"><a href=""></a>    plt.legend()</span>
-<span id="cb14-55"><a href=""></a>    plt.grid()</span>
-<span id="cb14-56"><a href=""></a>    plt.savefig(<span class="st">"speedup_vs_cores.png"</span>)</span>
-<span id="cb14-57"><a href=""></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14" data-code-line-numbers="|1-3|5-8|9-16|17-25|27-30|32-35|37-57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="im">import</span> multiprocessing <span class="im">as</span> mp</span>
+<span id="cb14-2"><a></a><span class="im">import</span> time</span>
+<span id="cb14-3"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-4"><a></a></span>
+<span id="cb14-5"><a></a><span class="kw">def</span> square_function(x):</span>
+<span id="cb14-6"><a></a>    time.sleep(<span class="fl">0.5</span>)</span>
+<span id="cb14-7"><a></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb14-8"><a></a></span>
+<span id="cb14-9"><a></a>  <span class="kw">def</span> benchmark_with_cores(numbers, cores):</span>
+<span id="cb14-10"><a></a>    <span class="co">"""Benchmark using a specific number of cores."""</span></span>
+<span id="cb14-11"><a></a>    start <span class="op">=</span> time.time()</span>
+<span id="cb14-12"><a></a>    <span class="cf">with</span> mp.Pool(processes<span class="op">=</span>cores) <span class="im">as</span> pool:</span>
+<span id="cb14-13"><a></a>        _ <span class="op">=</span> pool.<span class="bu">map</span>(square_function, numbers)</span>
+<span id="cb14-14"><a></a>    end <span class="op">=</span> time.time()</span>
+<span id="cb14-15"><a></a>    <span class="cf">return</span> end <span class="op">-</span> start</span>
+<span id="cb14-16"><a></a></span>
+<span id="cb14-17"><a></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb14-18"><a></a>    numbers <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>))</span>
+<span id="cb14-19"><a></a>    num_cores <span class="op">=</span> mp.cpu_count()</span>
+<span id="cb14-20"><a></a></span>
+<span id="cb14-21"><a></a>    <span class="co"># Sequential benchmark</span></span>
+<span id="cb14-22"><a></a>    start_seq <span class="op">=</span> time.time()</span>
+<span id="cb14-23"><a></a>    seq_result <span class="op">=</span> [square_function(x) <span class="cf">for</span> x <span class="kw">in</span> numbers]</span>
+<span id="cb14-24"><a></a>    end_seq <span class="op">=</span> time.time()</span>
+<span id="cb14-25"><a></a>    seq_time <span class="op">=</span> end_seq <span class="op">-</span> start_seq</span>
+<span id="cb14-26"><a></a></span>
+<span id="cb14-27"><a></a>    <span class="co"># Parallel benchmarks</span></span>
+<span id="cb14-28"><a></a>    cores_to_test <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, num_cores <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb14-29"><a></a>    times <span class="op">=</span> [benchmark_with_cores(numbers, c) <span class="cf">for</span> c <span class="kw">in</span> cores_to_test]</span>
+<span id="cb14-30"><a></a>    speedups <span class="op">=</span> [seq_time <span class="op">/</span> t <span class="cf">for</span> t <span class="kw">in</span> times]</span>
+<span id="cb14-31"><a></a></span>
+<span id="cb14-32"><a></a>    <span class="co"># Print results</span></span>
+<span id="cb14-33"><a></a>    <span class="bu">print</span>(<span class="ss">f"Sequential time: </span><span class="sc">{</span>seq_time<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
+<span id="cb14-34"><a></a>    <span class="cf">for</span> c, t, s <span class="kw">in</span> <span class="bu">zip</span>(cores_to_test, times, speedups):</span>
+<span id="cb14-35"><a></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>c<span class="sc">}</span><span class="ss"> cores -&gt; </span><span class="sc">{</span>t<span class="sc">:.2f}</span><span class="ss">s (</span><span class="sc">{</span>s<span class="sc">:.2f}</span><span class="ss">x speedup)"</span>)</span>
+<span id="cb14-36"><a></a></span>
+<span id="cb14-37"><a></a>    <span class="co"># Plot execution time</span></span>
+<span id="cb14-38"><a></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb14-39"><a></a>    plt.plot(cores_to_test, times, marker<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="st">"Execution Time"</span>)</span>
+<span id="cb14-40"><a></a>    plt.title(<span class="st">"Execution Time vs Number of Cores"</span>)</span>
+<span id="cb14-41"><a></a>    plt.xlabel(<span class="st">"Number of Cores"</span>)</span>
+<span id="cb14-42"><a></a>    plt.ylabel(<span class="st">"Execution Time (seconds)"</span>)</span>
+<span id="cb14-43"><a></a>    plt.grid()</span>
+<span id="cb14-44"><a></a>    plt.savefig(<span class="st">"execution_time_vs_cores.png"</span>)</span>
+<span id="cb14-45"><a></a>    plt.show()</span>
+<span id="cb14-46"><a></a></span>
+<span id="cb14-47"><a></a>    <span class="co"># Plot speedup curve</span></span>
+<span id="cb14-48"><a></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb14-49"><a></a>    plt.plot(cores_to_test, speedups, marker<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span><span class="st">'green'</span>, label<span class="op">=</span><span class="st">"Speedup"</span>)</span>
+<span id="cb14-50"><a></a>    plt.plot(cores_to_test, cores_to_test, <span class="st">'--'</span>, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">"Ideal Speedup"</span>)</span>
+<span id="cb14-51"><a></a>    plt.title(<span class="st">"Speedup vs Number of Cores"</span>)</span>
+<span id="cb14-52"><a></a>    plt.xlabel(<span class="st">"Number of Cores"</span>)</span>
+<span id="cb14-53"><a></a>    plt.ylabel(<span class="st">"Speedup (Relative to Sequential)"</span>)</span>
+<span id="cb14-54"><a></a>    plt.legend()</span>
+<span id="cb14-55"><a></a>    plt.grid()</span>
+<span id="cb14-56"><a></a>    plt.savefig(<span class="st">"speedup_vs_cores.png"</span>)</span>
+<span id="cb14-57"><a></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -929,6 +929,7 @@ Fernando Benitez
 <section class="slide level2">
 
 
+
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
@@ -938,20 +939,20 @@ Fernando Benitez
 </div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="ParallelComputing_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="site_libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="ParallelComputing_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="ParallelComputing_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="ParallelComputing_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="ParallelComputing_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="ParallelComputing_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
-  <script src="ParallelComputing_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="ParallelComputing_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="ParallelComputing_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="ParallelComputing_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="ParallelComputing_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>

@@ -1,4 +1,20 @@
 project:
-  title: "ParallelComputing"
+  type: website
+
+title: "ParallelProcessing"
 editor: visual
+
+website:
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: ParallelComputing.qmd
+        text: Parallel Computing
+      - href: git.qmd
+        text: Git Intro
+
+format:
+  html:
+    theme: cosmo
 

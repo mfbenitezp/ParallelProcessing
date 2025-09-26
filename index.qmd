@@ -1,0 +1,18 @@
+---
+title: "BEGIN Friday Cake Seminar Series"
+format:
+  html:
+    page-layout: full
+---
+
+# Welcome
+
+Welcome to the **BEGIN Friday Seminar Series** hosted by our research group.  
+Here you’ll find slides and resources for each session as we explore topics relevant to our research.
+
+
+### [Parallel Computing](ParallelComputing.qmd)
+Introduction to parallel computing concepts, examples, and applications.
+
+### [Git & Version Control](git.html)
+A practical introduction to Git for collaborative research workflows.
