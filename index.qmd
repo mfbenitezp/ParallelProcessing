@@ -14,5 +14,5 @@ Here you’ll find slides and resources for each session as we explore topics re
 ### [Parallel Computing](ParallelComputing.qmd)
 Introduction to parallel computing concepts, examples, and applications.
 
-### [Git & Version Control](git.html)
+### [Git & Version Control](Git.html)
 A practical introduction to Git for collaborative research workflows.
